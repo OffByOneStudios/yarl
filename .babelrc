@@ -1,0 +1,3 @@
+{
+  "presets": ["@exponent/babel-preset-node"]
+}

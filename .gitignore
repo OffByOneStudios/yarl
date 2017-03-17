@@ -1,0 +1,15 @@
+node_modules
+doc/
+.DS_Store
+semantic/gulpfile.js
+semantic/dist/
+semantic/tasks/
+semantic/src/definitions
+semantic/src/themes
+semantic/src/semantic.less
+semantic/src/theme.config
+semantic/src/theme.less
+npm-debug.log
+
+# The TMP module
+client/modules/tmp/*
