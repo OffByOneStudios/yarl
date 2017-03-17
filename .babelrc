@@ -1,3 +1,6 @@
 {
-  "presets": ["@exponent/babel-preset-node"]
+  "presets": [
+    "react",
+    "@exponent/babel-preset-node"
+  ]
 }
