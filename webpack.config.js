@@ -3,8 +3,14 @@ const webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval',
+  context: path.resolve(__dirname, 'src'),
+  entry: [
+    'react-hot-loader/patch',
+    'webpack-dev-server/client?http://localhost:3020',
+    'webpack/hot/only-dev-server',
+    './index.js'
+  ],
 
-  entry: './src/index.js',
 
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -23,7 +29,7 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        loader: "babel-loader",
+        loader: ['babel-loader'],
         exclude: /node_modules/,
       },
       {
