@@ -22,7 +22,22 @@ module.exports = {
   devServer: {
     hot: true,
     contentBase: path.resolve(__dirname, 'static'),
-    publicPath: '/'
+    headers: {
+      "Access-Control-Allow-Origin": "http://localhost:*"
+    },
+
+    publicPath: '/',
+
+    proxy: {
+      "/vendor/docs": {
+        target: "http://atom.io/docs/api/v1.5.0/AtomEnvironment",
+        pathRewrite: {"^/vendor/docs" : ""}
+      },
+      "/vendor/trello": {
+        target: "https://trello.com:443",
+        pathRewrite: {"^/vendor/trello" : ""}
+      },
+    },
   },
 
   module: {

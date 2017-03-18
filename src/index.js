@@ -1,14 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+import io from 'socket.io-client';
+
+
+const socket = io("http://localhost:3000");
+socket.on('connect', () => {
+  console.log("Connected to express")
+});
+socket.on('event', (data) => {
+
+});
+socket.on('disconnect', () => {
+
+});
+socket.emit({foo: "bar"});
 
 function render() {
   ReactDOM.render((
   <AppContainer>
     <div style={{display: 'flex'}}>
-      <iframe style={{height: "100%", flex: 1}} src="https://gingkoapp.com/" />
+      Hello
     </div>
-
   </AppContainer>
 ), document.getElementById('react-root'));
 }
