@@ -11,9 +11,9 @@ function Reducable(target, reducer) {
 export {Reducers};
 export {Reducable};
 
-export function reduce(state, action) {
-  Reducers.keys().map((e) => {
-    if(e === action.type) => {
+export function reduce(state = {}, action) {
+  Object.keys(Reducers).map((e) => {
+    if(e === action.type) {
       return Reducers[e](state, action);
     }
     return state;

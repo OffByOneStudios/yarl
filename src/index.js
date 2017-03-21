@@ -3,18 +3,22 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import io from 'socket.io-client';
 
+// Import This First
+import entrypoint from './configure/entrypoint';
 
-const socket = io("http://localhost:3000");
-socket.on('connect', () => {
-  console.log("Connected to express")
-});
-socket.on('event', (data) => {
+// Then Load Modules.
+import modules from './modules';
 
-});
-socket.on('disconnect', () => {
+let defaultState = Object.keys(modules).reduce((st, e)=> {
+    if (modules[e].defaultState) {
+      st[e] = modules[e].defaultState
+    }
+    return st;
+}, {})
 
-});
-socket.emit({foo: "bar"});
+console.log(defaultState);
+// Then Invoke Entrypoint
+window.Context = entrypoint(defaultState);
 
 function render() {
   ReactDOM.render((

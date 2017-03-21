@@ -3,15 +3,20 @@ import libs from './libs';
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import ReduxThunk from 'redux-thunk';
 
-export default function() {
+export default function(defaultState={}, reducers={}, middlewares=[]) {
   const reducer = combineReducers({
-    app: Context.reduce
+    app: Context.reduce,
   });
 
   const enhancer = compose(
     // Middleware you want to use in development:
-    applyMiddleware(ReduxThunk, libs.socketMiddleware),
+    applyMiddleware(ReduxThunk),
     // Required! Enable Redux DevTools with the monitors you chose
     // DevTools.instrument(),
   );
+
+  return {
+    ...Context,
+    Store: createStore(reducer, defaultState, enhancer)
+  }
 }
