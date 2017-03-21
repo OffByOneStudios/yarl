@@ -1,5 +1,9 @@
-import Jest from 'jest';
+//import Jest from 'jest';
+let Jest = {
+  test() {
 
+  }
+}
 function Testable(target, tests) {
   const n = (name) ? name : target.name;
   if(n in routes) {
@@ -11,6 +15,8 @@ function Testable(target, tests) {
       Jest.test(e, tests[e]);
     });
   }
+
+  return target;
 }
 
 export {Testable};

@@ -11,6 +11,8 @@
   "author": "Clark Rinker",
   "license": "ISC",
   "dependencies": {
+    "babel-plugin-transform-class-properties": "^6.23.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "body-parser": "^1.17.1",
     "commander": "^2.9.0",
     "core-decorators": "^0.15.0",

@@ -6,8 +6,11 @@ let Reducers = {};
 function Reducable(target, reducer) {
   Actions[target.name] = target.bind({type: target.name});
   Reducers[target.name] = reducer;
+
+  return target;
 }
 
+export {Actions}
 export {Reducers};
 export {Reducable};
 

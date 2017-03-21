@@ -16,7 +16,6 @@ let defaultState = Object.keys(modules).reduce((st, e)=> {
     return st;
 }, {})
 
-console.log(defaultState);
 // Then Invoke Entrypoint
 window.Context = entrypoint(defaultState);
 

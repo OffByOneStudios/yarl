@@ -2,8 +2,10 @@
 let Documents = [];
 
 function Documentable(target, docs) {
-  const n = (name) ? name : target.name;
-  Documents.append({...docs, name: n});
+  const name = target.name;
+  Documents.push({...docs, name});
+
+  return target;
 }
 
 export {Documents};

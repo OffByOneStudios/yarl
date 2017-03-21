@@ -1,11 +1,13 @@
 import Context from './decorators';
+import {reduce} from './decorators/reducable';
 import libs from './libs';
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import ReduxThunk from 'redux-thunk';
 
+console.log(Context.reduce);
 export default function(defaultState={}, reducers={}, middlewares=[]) {
   const reducer = combineReducers({
-    app: Context.reduce,
+    app: reduce,
   });
 
   const enhancer = compose(
@@ -17,6 +19,6 @@ export default function(defaultState={}, reducers={}, middlewares=[]) {
 
   return {
     ...Context,
-    Store: createStore(reducer, defaultState, enhancer)
+    Store: createStore(reducer, {app: defaultState}, enhancer)
   }
 }

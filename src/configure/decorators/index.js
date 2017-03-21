@@ -1,15 +1,18 @@
-import {Documents} from './documentable';
-import {Reducers, Actions, reduce} from './reducable';
-//import {Tests} from './testable';
-import {Types} from './typeable';
-import {Routes} from './routable';
+'use babel'
 
+import {Documents} from './documentable.js';
+import {Reducers, Actions} from './reducable.js';
+import {Routes} from './routable.js';
+import {Tags} from './tagable.js';
+import {Tests} from './testable.js';
+import {Types} from './typable.js';
 
 export default {
-  Actions,
   Documents,
-  Routes,
   Reducers,
-  reduce,
-  Types
-}
+  Actions,
+  Routes,
+  Tags,
+  Tests,
+  Types,
+};

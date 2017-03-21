@@ -3,4 +3,6 @@
     "react",
     "@exponent/babel-preset-node"
   ],
+  "plugins": ["transform-decorators-legacy", "transform-class-properties"]
+
 }

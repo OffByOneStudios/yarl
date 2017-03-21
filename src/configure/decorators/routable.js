@@ -9,6 +9,8 @@ function Routable(target, name) {
   else {
     Routes[n] = (routeProps) => {return target};
   }
+
+  return target;
 }
 
 export {Routes};
