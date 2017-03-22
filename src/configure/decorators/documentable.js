@@ -1,11 +1,12 @@
 
 let Documents = [];
 
-function Documentable(target, docs) {
-  const name = target.name;
-  Documents.push({...docs, name});
-
-  return target;
+function Documentable(docs) {
+  return (target) => {
+    const name = target.name;
+    Documents.push({...docs, name, target});
+    return target;
+  };
 }
 
 export {Documents};

@@ -43,9 +43,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        loader: ['babel-loader'],
-        exclude: /node_modules/,
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader',
+        }
       },
       {
         test: /\.(png|woff2|svg|ttf|woff|eot)(\?.*)?$/,

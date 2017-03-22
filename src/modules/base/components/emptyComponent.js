@@ -2,6 +2,21 @@ import React from 'react';
 import {Documentable} from '../../../configure/decorators/documentable';
 import {connect} from 'react-redux';
 
+
+@connect((state) => {
+  return {
+    empty: state.app.empty
+  };
+})
+@Documentable({
+  text:
+  `
+  This Component is Left Intentionally Blank
+  `,
+  propTypes: {
+    foo: `AThing`
+  }
+})
 class EmptyComponent extends React.Component {
   static propTypes = {
 
@@ -26,16 +41,5 @@ class EmptyComponent extends React.Component {
     );
   }
 }
-
-Documentable(EmptyComponent, {
-  text:
-  `
-  This Component is Left Intentionally Blank
-  `,
-  propTypes: {
-    foo: `AThing`
-  }
-})
-
 
 export default EmptyComponent;
