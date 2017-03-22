@@ -18,7 +18,6 @@
     "body-parser": "^1.17.1",
     "commander": "^2.9.0",
     "core-decorators": "^0.15.0",
-    "dotprop": "^1.0.2",
     "express": "^4.15.2",
     "jest": "^19.0.2",
     "react": "^15.4.2",

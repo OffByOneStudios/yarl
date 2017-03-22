@@ -1,6 +1,6 @@
 'use babel'
-import {Reducable} from '../../../configure/decorators/reducable';
-import dotProp from 'dotprop';
+import {compose} from 'redux';
+import {Reducable, Documentable, Tagable, Testable} from '../../../configure/decorators';
 
 function emptyAction() {
   return {
@@ -10,6 +10,35 @@ function emptyAction() {
     }
   }
 }
-export default Reducable(emptyAction, (state, action) => {
-  return dotProp.set(state, "base.empty", action.data);
-});
+export default compose(
+  Reducable((state, action) => {
+    return {
+      ...state,
+      app: {
+        ...state.app,
+        base: {
+          ...state.app.base,
+          foo: action.data.foo
+        }
+      }
+    }
+  }),
+  Documentable({
+    text: `
+    This Action Just shows that state works
+    `
+  }),
+  Tagable({
+    platform: 'any',
+    async: false,
+    hamburgers: 20
+  }),
+  Testable({
+    'Is a Tautology': () => {
+        return true;
+    },
+    'Has a Return Value': () => {
+      return this.target() !== undefined;
+    }
+  }))
+(emptyAction);

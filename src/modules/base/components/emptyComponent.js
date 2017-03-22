@@ -1,11 +1,11 @@
 import React from 'react';
-import {Documentable} from '../../../configure/decorators/documentable';
+import {Documentable, Routable, Testable, Tagable, Typable} from '../../../configure/decorators';
 import {connect} from 'react-redux';
 
 
 @connect((state) => {
   return {
-    empty: state.app.empty
+    empty: state.app.base.empty
   };
 })
 @Documentable({
@@ -17,24 +17,34 @@ import {connect} from 'react-redux';
     foo: `AThing`
   }
 })
-class EmptyComponent extends React.Component {
+@Testable({
+  'This Is Always True': () => {
+      return true;
+  },
+})
+@Tagable({
+  platform: 'web',
+})
+@Typable("Nothing")
+@Routable("emptyComponent")
+class EmptyComponent extends React.PureComponent {
   static propTypes = {
 
   }
 
   render() {
     return (
-      <div class="container">
-        <div class="row">
-          <div class="column">.column</div>
-          <div class="column">.column</div>
-          <div class="column">.column</div>
-          <div class="column">.column</div>
+      <div className="container">
+        <div className="row">
+          <div className="column">.column</div>
+          <div className="column">.column</div>
+          <div className="column">.column</div>
+          <div className="column">.column</div>
         </div>
 
-        <div class="row">
-          <div class="column">.column</div>
-          <div class="column column-50 column-offset-25">.column column-50 column-offset-25</div>
+        <div className="row">
+          <div className="column">.column</div>
+          <div className="column column-50 column-offset-25">.column column-50 column-offset-25</div>
         </div>
 
       </div>

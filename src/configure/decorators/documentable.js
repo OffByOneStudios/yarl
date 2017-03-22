@@ -9,5 +9,13 @@ function Documentable(docs) {
   };
 }
 
+Documentable({
+  text:`
+  Decorator which Generates documentation
+  `,
+  args: {
+    docs: `An Object of shape {text, args, propTypes}`
+  }
+})(Documentable);
 export {Documents};
 export {Documentable};

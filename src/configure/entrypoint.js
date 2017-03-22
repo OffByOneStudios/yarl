@@ -4,7 +4,11 @@ import libs from './libs';
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import ReduxThunk from 'redux-thunk';
 
-console.log(Context.reduce);
+// This module
+import actions from './actions';
+import components from './components';
+import yarlState from './defaultState';
+
 export default function(defaultState={}, reducers={}, middlewares=[]) {
   const reducer = combineReducers({
     app: reduce,
@@ -19,6 +23,9 @@ export default function(defaultState={}, reducers={}, middlewares=[]) {
 
   return {
     ...Context,
-    Store: createStore(reducer, {app: defaultState}, enhancer)
+    Store: createStore(reducer, {app: {
+      yarl: yarlState,
+      ...defaultState
+    }}, enhancer)
   }
 }

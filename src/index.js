@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+import {Provider} from 'react-redux';
 import io from 'socket.io-client';
 
 // Import This First
 import entrypoint from './configure/entrypoint';
-
+import NavContainer from './configure/components/navContainer';
 // Then Load Modules.
 import modules from './modules';
 
@@ -22,9 +23,9 @@ window.Context = entrypoint(defaultState);
 function render() {
   ReactDOM.render((
   <AppContainer>
-    <div style={{display: 'flex'}}>
-      Hello
-    </div>
+    <Provider store={Context.Store}>
+      <NavContainer />
+    </Provider>
   </AppContainer>
 ), document.getElementById('react-root'));
 }
