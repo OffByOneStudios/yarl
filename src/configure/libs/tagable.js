@@ -1,19 +1,17 @@
-import {Documentable} from './documentable';
+import Documentable from './documentable';
 
-let Tags = {
-
-}
+import Context from './context';
 
 function Tagable(props) {
   return (target) => {
     const n = target.name;
-    Tags[n] = props;
+    Context.Tags[n] = props;
 
     return target;
   }
 }
 
-Documentable({
+export default Documentable({
   text: `
   Add machine readable metadata for a function.
   `,
@@ -21,6 +19,3 @@ Documentable({
     tags: `Hash of key value pairs`
   }
 })(Tagable);
-
-export {Tags};
-export {Tagable};

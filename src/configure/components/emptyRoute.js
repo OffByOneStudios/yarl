@@ -1,7 +1,13 @@
 'use babel'
-import {Documentable, Routable, Testable, Tagable, Typable} from '../decorators';
+import {compose} from 'redux';
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+
+import Routable from '../libs/routable';
+import Documentable from '../libs/documentable';
+import Tagable from '../libs/tagable';
+import Testable from '../libs/testable';
+import Typable from '../libs/typable';
 
 @connect((state) => {
   return {
@@ -35,7 +41,9 @@ export default class emptyRoute extends Component {
 
   render() {
     return (
-      <div>You Have No Routes! Make Some.</div>
+      <blockquote>
+        <p><em>Yeah!! Milligram is amazing.</em></p>
+      </blockquote>
     );
   }
 }

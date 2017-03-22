@@ -1,11 +1,11 @@
 
-import {Documentable} from './documentable';
-let Tests = {};
+import Documentable from './documentable';
+import Context from './context';
 
 function Testable(tests) {
   return (target) => {
     const n = (name) ? name : target.name;
-    Tests[n] = Object.keys(tests).reduce((res, e) => {
+    Context.Tests[n] = Object.keys(tests).reduce((res, e) => {
       res[e] = tests[e].bind({target});
       return res;
     }, {});
@@ -13,7 +13,7 @@ function Testable(tests) {
   }
 }
 
-Documentable({
+export default Documentable({
   text: `
   Associate unit tests with an object.
   `,
@@ -21,6 +21,3 @@ Documentable({
     tests: `Hash of testname:()=>{} pairs. Target method is bound to testing function`
   }
 })(Testable);
-
-export {Tests}
-export {Testable};

@@ -1,23 +1,20 @@
 
-import {Documentable} from './documentable';
-
-let Routes = {};
+import Context from './context';
+import Documentable from './documentable';
 
 function Routable(name) {
   return (target) => {
     if(name === false) {return target;}
     const n = (name) ? name : target.name;
-    if(n in Routes) {
-      console.warn(`Route ${n} already refers to ${routes[n]}`);
+    if(n in Context.Routes) {
+      console.info(`Route ${n} Is Overriding ${routes[n]}`);
     }
-    else {
-      Routes[n] = (routeProps) => {return target};
-    }
+    Context.Routes[n] = (routeProps) => {return target};
     return target;
   }
 }
 
-Documentable({
+export default Documentable({
   text: `
   Decorator which registers a component to be mounted on a specific route
   `,
@@ -25,7 +22,3 @@ Documentable({
     route: `String name of route, or false if the component should be unroutable`
   }
 })(Routable);
-
-
-export {Routes};
-export {Routable};

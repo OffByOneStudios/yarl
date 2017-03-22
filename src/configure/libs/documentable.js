@@ -1,15 +1,15 @@
 
-let Documents = [];
+import Context from './context';
 
 function Documentable(docs) {
   return (target) => {
     const name = target.name;
-    Documents.push({...docs, name, target});
+    Context.Documents[name] = ({...docs, target});
     return target;
   };
 }
 
-Documentable({
+export default Documentable({
   text:`
   Decorator which Generates documentation
   `,
@@ -17,5 +17,3 @@ Documentable({
     docs: `An Object of shape {text, args, propTypes}`
   }
 })(Documentable);
-export {Documents};
-export {Documentable};

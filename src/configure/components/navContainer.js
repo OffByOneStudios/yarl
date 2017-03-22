@@ -1,7 +1,13 @@
 'use babel'
-import {Documentable, Routable, Testable, Tagable, Typable} from '../decorators';
+import {compose} from 'redux';
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+
+import Routable from '../libs/routable';
+import Documentable from '../libs/documentable';
+import Tagable from '../libs/tagable';
+import Testable from '../libs/testable';
+import Typable from '../libs/typable';
 
 @connect((state) => {
   return {

@@ -1,6 +1,10 @@
 'use babel'
 import {compose} from 'redux';
-import {Reducable, Documentable, Tagable, Testable} from '../decorators';
+
+import Reducable from '../libs/reducable';
+import Documentable from '../libs/documentable';
+import Tagable from '../libs/tagable';
+import Testable from '../libs/testable';
 
 function setNav(route, props) {
   return {
