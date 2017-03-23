@@ -38,7 +38,7 @@ export default class navContainer extends Component {
   }
 
   render() {
-    const Route = Context.Routes[this.props.nav.now.route]();
+    const Route = Context.Routes[this.props.nav.now.route].target;
     return (<Route routeProps={this.props.nav.now.props} />);
   }
 }

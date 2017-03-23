@@ -2,14 +2,14 @@
 import Context from './context';
 import Documentable from './documentable';
 
-function Routable(name) {
+function Routable(name, meta) {
   return (target) => {
     if(name === false) {return target;}
     const n = (name) ? name : target.name;
     if(n in Context.Routes) {
       console.info(`Route ${n} Is Overriding ${Context.Routes[n]}`);
     }
-    Context.Routes[n] = (routeProps) => {return target};
+    Context.Routes[n] = {target, ...meta};
     return target;
   }
 }
