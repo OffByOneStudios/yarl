@@ -7,7 +7,7 @@ function Routable(name) {
     if(name === false) {return target;}
     const n = (name) ? name : target.name;
     if(n in Context.Routes) {
-      console.info(`Route ${n} Is Overriding ${routes[n]}`);
+      console.info(`Route ${n} Is Overriding ${Context.Routes[n]}`);
     }
     Context.Routes[n] = (routeProps) => {return target};
     return target;

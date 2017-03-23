@@ -5,6 +5,7 @@ import {Provider} from 'react-redux';
 import io from 'socket.io-client';
 
 // Import This First
+import libs from './configure/libs';
 import entrypoint from './configure/entrypoint';
 import NavContainer from './configure/components/navContainer';
 // Then Load Modules.
@@ -32,6 +33,23 @@ function extractDefaultState(modules) {
     }
     return st;
   }, {})
+}
+
+
+let Documentable = libs.documentable;
+let Reducable = libs.reducable;
+let Routable = libs.routable;
+let Tagable = libs.tagable;
+let Testable = libs.testable;
+let Typable = libs.typable;
+
+export {
+  Documentable,
+  Reducable,
+  Routable,
+  Tagable,
+  Testable,
+  Typable
 }
 
 export default {
