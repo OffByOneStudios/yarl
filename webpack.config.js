@@ -13,7 +13,7 @@ module.exports = {
 
 
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "static"),
     filename: 'bundle.js',
     publicPath: 'static',
     library: 'yarl',
@@ -29,14 +29,6 @@ module.exports = {
     publicPath: '/',
 
     proxy: {
-      "/vendor/docs": {
-        target: "http://atom.io/docs/api/v1.5.0/AtomEnvironment",
-        pathRewrite: {"^/vendor/docs" : ""}
-      },
-      "/vendor/trello": {
-        target: "https://trello.com:443",
-        pathRewrite: {"^/vendor/trello" : ""}
-      },
     },
   },
 
