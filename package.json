@@ -8,7 +8,7 @@
     "build-client": "webpack --output-path dist/",
     "build-scripts": "babel scripts --out-dir dist/",
     "dev-scripts": "babel-node scripts/index.js",
-    "preinstall": "npm run build-scripts"
+    "prepublish": "npm run build-scripts"
   },
   "bin": {
     "yarl": "dist/index.js"
