@@ -1,19 +1,23 @@
 {
   "name": "@offbyonestudios/yarl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev-client": "webpack-dev-server --port 3020"
+    "dev-client": "webpack-dev-server --port 3020",
+    "build-client": "webpack --output-path dist/",
+    "build-scripts": "babel scripts --out-dir dist/",
+    "dev-scripts": "babel-node scripts/index.js",
+    "preinstall": "npm run build-scripts"
   },
-  "bin" : {
-    "yarl" : "scripts/index.js" 
+  "bin": {
+    "yarl": "dist/index.js"
   },
-
   "author": "OffByOne Studios",
   "license": "MIT",
   "repository": "https://github.com/OffByOneStudios/yarl",
   "dependencies": {
+    "commander": "^2.9.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-hot-loader": "next",
@@ -23,6 +27,7 @@
     "socket.io": "^1.7.3"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-class-properties": "^6.23.0",
