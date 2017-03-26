@@ -51,6 +51,9 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
+    new webpack.DefinePlugin({
+        YARL_ENV: "BROWSER"
+    })
   ],
 
 }

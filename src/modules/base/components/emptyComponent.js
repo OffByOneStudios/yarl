@@ -1,5 +1,11 @@
 import React from 'react';
-import {Documentable, Routable, Testable, Tagable, Typable} from '../../../configure/decorators';
+
+import Documentable from '../../../configure/libs/documentable';
+import Routable from '../../../configure/libs/routable';
+import Testable from '../../../configure/libs/testable';
+import Tagable from '../../../configure/libs/tagable';
+import Typable from '../../../configure/libs/typable';
+
 import {connect} from 'react-redux';
 
 
@@ -26,8 +32,7 @@ import {connect} from 'react-redux';
   platform: 'web',
 })
 @Typable("Nothing")
-@Routable("emptyComponent")
-class EmptyComponent extends React.PureComponent {
+class EmptyComponent extends React.Component {
   static propTypes = {
 
   }
@@ -35,18 +40,7 @@ class EmptyComponent extends React.PureComponent {
   render() {
     return (
       <div className="container">
-        <div className="row">
-          <div className="column">.column</div>
-          <div className="column">.column</div>
-          <div className="column">.column</div>
-          <div className="column">.column</div>
-        </div>
-
-        <div className="row">
-          <div className="column">.column</div>
-          <div className="column column-50 column-offset-25">.column column-50 column-offset-25</div>
-        </div>
-
+        Empty Component
       </div>
     );
   }

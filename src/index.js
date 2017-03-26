@@ -8,7 +8,9 @@ import io from 'socket.io-client';
 import libs from './configure/libs';
 import entrypoint from './configure/entrypoint';
 import NavContainer from './configure/components/navContainer';
+
 // Then Load Modules.
+import modules from './modules';
 
 function render() {
   ReactDOM.render((
@@ -56,4 +58,10 @@ export default {
   extractDefaultState,
   entrypoint,
   render
+}
+
+if(!YARL_BROWSER) {
+  const defaultState = extractDefaultState(modules);
+  const Context = entrypoint(defaultState);
+  Context.Commander.parse(process.argv);
 }

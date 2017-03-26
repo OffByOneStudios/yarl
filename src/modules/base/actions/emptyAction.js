@@ -1,6 +1,10 @@
 'use babel'
 import {compose} from 'redux';
-import {Reducable, Documentable, Tagable, Testable} from '../../../configure/decorators';
+
+import Documentable from '../../../configure/libs/documentable';
+import Reducable from '../../../configure/libs/reducable';
+import Testable from '../../../configure/libs/testable';
+import Tagable from '../../../configure/libs/tagable';
 
 function emptyAction() {
   return {

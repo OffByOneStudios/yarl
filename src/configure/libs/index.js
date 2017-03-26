@@ -1,5 +1,6 @@
 'use babel'
 
+import commandable from './commandable.js';
 import context from './context.js';
 import documentable from './documentable.js';
 import reducable from './reducable.js';
@@ -11,6 +12,7 @@ import testable from './testable.js';
 import typable from './typable.js';
 
 export default {
+  commandable,
   context,
   documentable,
   reducable,

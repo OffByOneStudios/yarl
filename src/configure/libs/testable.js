@@ -4,8 +4,7 @@ import Context from './context';
 
 function Testable(tests) {
   return (target) => {
-    const n = (name) ? name : target.name;
-    Context.Tests[n] = Object.keys(tests).reduce((res, e) => {
+    Context.Tests[target.name] = Object.keys(tests).reduce((res, e) => {
       res[e] = tests[e].bind({target});
       return res;
     }, {});
