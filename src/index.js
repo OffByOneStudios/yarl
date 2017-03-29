@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import {Provider} from 'react-redux';
-import io from 'socket.io-client';
 
 // Import This First
 import libs from './configure/libs';
