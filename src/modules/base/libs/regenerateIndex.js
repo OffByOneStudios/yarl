@@ -2,8 +2,14 @@
 'use babel'
 import Documentable from '../../../configure/libs/documentable';
 
+let fs, path;
+if(!YARL_BROWSER) {
+  fs = require('fs');
+  path = require('path');
+}
+
 function regenerateIndex(directory) {
-  const fs = require('fs');
+
   const items = fs.readdirSync(directory).filter((e) => {return e !== '.DS_Store' && e !== 'index.js';});
   const _imports = items.map((e) => { return `import ${e.split('.')[0]} from './${e}';`;});
   const _exports = items.map((e) => { return `  ${e.split('.')[0]},`});

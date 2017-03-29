@@ -8,6 +8,12 @@ import Tagable from '../../../configure/libs/tagable';
 
 import regenerateIndex from './regenerateIndex';
 
+let fs, path;
+if(!YARL_BROWSER) {
+  fs = require('fs');
+  path = require('path');
+}
+
 function useDocumentable(name, args=[]) {
   const sArgs = args.map((e, i) => {
     return `${e}: 'Arg ${i}'`;
@@ -36,8 +42,7 @@ function useTagable(name) {
 }
 
 function newFunction(moduleName, functionName, functionArgs, command) {
-  const fs = require('fs');
-  const path = require('path');
+
   if(!fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
   {
     console.error(`No Such Module ${moduleName}`);

@@ -59,8 +59,16 @@ export default {
   render
 }
 
-if(!YARL_BROWSER) {
-  const defaultState = extractDefaultState(modules);
-  const Context = entrypoint(defaultState);
-  Context.Commander.parse(process.argv);
+if(YARL_ENTRYPOINT) {
+  if(!YARL_BROWSER) {
+    const defaultState = extractDefaultState(modules);
+    const Context = entrypoint(defaultState);
+    Context.Commander.parse(process.argv);
+  }
+  else {
+    console.log('Entry');
+    window.defaultState = extractDefaultState(modules);
+    window.Context = entrypoint(defaultState);
+    render(modules, defaultState);
+  }
 }

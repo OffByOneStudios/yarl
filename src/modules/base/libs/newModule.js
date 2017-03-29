@@ -6,9 +6,14 @@ import Tagable from '../../../configure/libs/tagable'
 
 import regenerateIndex from './regenerateIndex';
 
+let fs, path;
+if(!YARL_BROWSER) {
+  fs = require('fs');
+  path = require('path');
+}
+
 function newModule(moduleName) {
-  const fs = require('fs');
-  const path = require('path');
+
   const modulesPath = path.join(process.cwd(), `src/modules`);
   if(fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
   {

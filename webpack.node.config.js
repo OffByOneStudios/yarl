@@ -37,7 +37,8 @@ module.exports = {
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
-        YARL_BROWSER: false
+      YARL_BROWSER: false,
+      YARL_ENTRYPOINT: true
     })
   ],
 

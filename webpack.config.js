@@ -14,7 +14,7 @@ module.exports = {
 
   output: {
     path: path.resolve(__dirname, "static"),
-    filename: 'bundle.js',
+    filename: '[name].[hash].js',
     publicPath: 'static',
     library: 'yarl',
   },
@@ -36,7 +36,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules)/,
+        include: path.join(__dirname, 'src'),
         use: {
           loader: 'babel-loader',
         }
@@ -52,7 +52,15 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
-        YARL_ENV: "BROWSER"
+        YARL_BROWSER: true,
+        YARL_ENTRYPOINT: true
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: function (module) {
+         // this assumes your vendor imports exist in the node_modules directory
+         return module.context && module.context.indexOf('node_modules') !== -1;
+      }
     })
   ],
 
