@@ -8,6 +8,8 @@ import Typable from '../../../configure/libs/typable';
 
 import {connect} from 'react-redux';
 
+import baseRenderByPropType from '../libs/baseRenderByPropType';
+
 const $d = (actionType) => {
   return window.Context.Store.dispatch(actionType);
 }
@@ -45,7 +47,7 @@ const $a = (actionName) => {
 })
 class EmptyComponent extends React.Component {
   static propTypes = {
-
+    
   }
 
   render() {

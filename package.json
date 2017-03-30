@@ -1,13 +1,14 @@
 {
   "name": "@offbyonestudios/yarl",
-  "version": "1.0.2",
-  "description": "",
+  "version": "1.0.3",
+  "description": "Yet Another React Library",
   "main": "dist/index.js",
   "scripts": {
     "dev-client": "webpack-dev-server --port 3020",
     "build-client": "webpack --output-path dist/",
     "dist-client": "babel src --out-dir dist/",
-    "cli": "webpack --config=webpack.node.config.js",
+    "cli": "node dist/cli",
+    "watch-cli": "webpack --watch --config=webpack.node.config.js",
     "prepublish": "npm run dist-client"
   },
   "bin": {
