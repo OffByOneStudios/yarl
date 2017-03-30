@@ -9,6 +9,14 @@ import Tagable from '../libs/tagable';
 import Testable from '../libs/testable';
 import Typable from '../libs/typable';
 
+
+const $d = (actionType) => {
+  return window.Context.Store.dispatch(actionType);
+}
+const $a = (actionName) => {
+  return window.Context.Actions[actionName];
+}
+
 @connect((state) => {
   return {
     // empty: state.app.base.empty
@@ -40,10 +48,21 @@ export default class emptyRoute extends Component {
 
 
   render() {
+    const items = Object.keys(Context.Routes).map((e, i)=>{
+      return (
+        <div key={i}>
+          <div className="hoverable" onClick={() => {$d($a("setNav")(e))}}>
+            {e}
+          </div>
+          <div>{Context.Routes[e].displayName}</div>
+          <div>{Context.Routes[e].description}</div>
+        </div>
+      )
+    })
     return (
-      <blockquote>
-        <p><em>Yeah!! Milligram is amazing.</em></p>
-      </blockquote>
+      <div>
+        {items}
+      </div>
     );
   }
 }

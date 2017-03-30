@@ -2,13 +2,13 @@
   "name": "@offbyonestudios/yarl",
   "version": "1.0.2",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "dev-client": "webpack-dev-server --port 3020 --define process.env.NODE_ENV='development'",
+    "dev-client": "webpack-dev-server --port 3020",
     "build-client": "webpack --output-path dist/",
-    "build-scripts": "babel scripts --out-dir dist/",
+    "dist-client": "babel src --out-dir dist/",
     "cli": "webpack --config=webpack.node.config.js",
-    "prepublish": "npm run build-scripts"
+    "prepublish": "npm run dist-client"
   },
   "bin": {
     "yarl": "dist/index.js"

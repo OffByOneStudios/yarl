@@ -15,6 +15,9 @@ else {
     },
     action() {
       return this;
+    },
+    option() {
+      return this;
     }
   }
 }

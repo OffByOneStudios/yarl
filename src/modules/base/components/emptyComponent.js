@@ -8,6 +8,13 @@ import Typable from '../../../configure/libs/typable';
 
 import {connect} from 'react-redux';
 
+const $d = (actionType) => {
+  return window.Context.Store.dispatch(actionType);
+}
+const $a = (actionName) => {
+  return window.Context.Actions[actionName];
+}
+
 
 @connect((state) => {
   return {
@@ -32,15 +39,22 @@ import {connect} from 'react-redux';
   platform: 'web',
 })
 @Typable("Nothing")
+@Routable("emptyComponent", {
+  displayName: "Empty Component",
+  description: "This Component Left Intentionally Blank"
+})
 class EmptyComponent extends React.Component {
   static propTypes = {
 
   }
 
   render() {
+
     return (
       <div className="container">
-        Empty Component
+        <div className="hoverable" onClick={() => {$d($a("backNav")())}}>
+          Back
+        </div>
       </div>
     );
   }
