@@ -67,6 +67,7 @@ if(YARL_ENTRYPOINT) {
   }
   else {
     console.log('Entry');
+    console.log(require('casual-browserify'));
     window.defaultState = extractDefaultState(modules);
     window.Context = entrypoint(defaultState);
     render(modules, defaultState);

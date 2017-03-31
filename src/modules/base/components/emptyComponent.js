@@ -47,7 +47,7 @@ const $a = (actionName) => {
 })
 class EmptyComponent extends React.Component {
   static propTypes = {
-    
+
   }
 
   render() {

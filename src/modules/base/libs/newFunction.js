@@ -17,11 +17,13 @@ if(!YARL_BROWSER) {
 function useDocumentable(name, args=[]) {
   const sArgs = args.map((e, i) => {
     return `${e}: 'Arg ${i}'`;
-  }).join(',\n');
+  }).join(',\n    ');
   return `Documentable({
-      text: \`# ${name}\`,
-      args: {${sArgs}}
-  }),`;
+  text: \`# ${name}\`,
+  args: {
+    ${sArgs}
+  }
+}),`;
 }
 
 function useCommandable(name, args=[]) {
@@ -30,11 +32,11 @@ function useCommandable(name, args=[]) {
   }).join(' ');
 
   return `Commandable((program) => {
-    program
-      .command('${name} ${sArgs}' )
-      .description('Invoke ${name}')
-      .action(${name});
-  }),`;
+  program
+    .command('${name} ${sArgs}' )
+    .description('Invoke ${name}')
+    .action(${name});
+}),`;
 }
 
 function useTagable(name) {

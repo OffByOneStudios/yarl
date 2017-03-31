@@ -7,7 +7,7 @@ import Tagable from '../../../configure/libs/tagable'
 import React, {Component, PropTypes} from 'react';
 
 function valueFor(moduleName, componentName, prop, type) {
-  if(type === PropTypes.array) {
+  if(type === PropTypes.object) {
     return (
       <ol className={`${moduleName}-${componentName}-${propName}-value`}>
         {
@@ -17,10 +17,25 @@ function valueFor(moduleName, componentName, prop, type) {
                 {e}
               </li>
             )
-          });
-
+          })
         }
       </ol>
+    );
+  }
+
+  else if(type === PropTypes.object) {
+    return (
+      <ul className={`${moduleName}-${componentName}-${propName}-value`}>
+        {
+          Object.keys(prop).map((e, i) => {
+            return (
+              <li key={i} className={`${moduleName}-${componentName}-${propName}-value-item`}>
+                {e}: {prop[e]}
+              </li>
+            )
+          })
+        }
+      </ul>
     );
   }
 
@@ -34,13 +49,13 @@ function valueFor(moduleName, componentName, prop, type) {
 
   else if(type === PropTypes.func) {
     return (
-      <div onClick((e)=>{prop(e)}) className={`${moduleName}-${componentName}-${propName}-value-${prop}`}>
+      <div onClick={(e)=>{prop(e)}} className={`${moduleName}-${componentName}-${propName}-value-${prop}`}>
         {prop.name}
       </div>
     );
   }
 
-  else if(type === PropTypes.string || type  === PropTypes.number || ) {
+  else if(type === PropTypes.string || type  === PropTypes.number) {
     return (
       <div className={`${moduleName}-${componentName}-${propName}-value-${prop}`}>
         {prop}
@@ -58,7 +73,7 @@ function valueFor(moduleName, componentName, prop, type) {
 
 }
 
-function baseRenderByPropType({moduleName, componentName, props, propTypes}) {
+function baseRenderByPropType(moduleName, componentName, props, propTypes) {
 
   const body = Object.keys(propTypes).map((e, i) => {
     return (
