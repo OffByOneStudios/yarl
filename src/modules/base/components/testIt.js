@@ -25,7 +25,7 @@ import baseRenderByPropType from '../libs/baseRenderByPropType'
   displayName: 'TestIt',
   description: 'This is a Test of the automated Component Generation System'
 })
-@connect((state, ownProps) ==> {
+@connect((state, ownProps) => {
     return {
       testIt: state.app.base.testIt
     };
