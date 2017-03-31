@@ -1,10 +1,13 @@
 'use babel'
 import {compose} from 'redux';
+import React from 'react';
+
 import Documentable from '../../../configure/libs/documentable'
 import Commandable from '../../../configure/libs/commandable'
 import Tagable from '../../../configure/libs/tagable'
 
 import casualByPropTypeString from './casualByPropTypeString';
+import regenerateIndex from './regenerateIndex';
 
 let fs, path;
 if(!YARL_BROWSER) {
@@ -54,9 +57,13 @@ function expandPropTypes(pairList) {
 function expandDefaultProps(pairList) {
   return pairList.map((e, i) => {
     const s = e.split(":");
+    if(React.PropTypes[s[1]] === undefined) {
+      throw `Invalid React PropType: ${s[0]}`
+    }
     return `${s[0]}: ${casualByPropTypeString(s[1])}`;
   }).join(",\n    ");
 }
+
 function newComponent(moduleName, componentName, propTypes, options) {
   if(!fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
   {
@@ -82,6 +89,7 @@ ${(options.routable) ? `import Routable from '${yarlPath}/configure/libs/routabl
 ${(options.tagable) ? `import Tagable from '${yarlPath}/configure/libs/tagable';`: ''}
 ${(options.typable) ? `import Typable from '${yarlPath}/configure/libs/typable';`: ''}
 
+import baseRenderByPropType from '${yarlPath}/modules/base/libs/baseRenderByPropType';
 
 ${(options.documentable) ? `${useDocumentable(componentName, propTypes)}` : ''}
 ${(options.tagable) ? `${useTagable(componentName)}` : ''}
@@ -100,7 +108,7 @@ class ${componentName} extends Component {
     const body = baseRenderByPropType('${moduleName}', '${componentName}', this.props, ${componentName}.propTypes);
     return (
       <div>
-        <h3>${componentName}</h1>
+        <h3>${componentName}</h3>
         {body}
       </div>
     );

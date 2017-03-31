@@ -4,11 +4,12 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import casual from 'casual-browserify';
 
-import Documentable from '../../../configure/libs/documentable'
+import Documentable from '../../../configure/libs/documentable';
 import Routable from '../../../configure/libs/routable';
-import Tagable from '../../../configure/libs/tagable'
-import Typable from '../../../configure/libs/typable'
-import baseRenderByPropType from '../libs/baseRenderByPropType'
+import Tagable from '../../../configure/libs/tagable';
+import Typable from '../../../configure/libs/typable';
+
+import baseRenderByPropType from '../../../modules/base/libs/baseRenderByPropType';
 
 @Documentable({
   text: `# testIt`,
@@ -22,10 +23,10 @@ import baseRenderByPropType from '../libs/baseRenderByPropType'
 @Tagable({platform: 'any'})
 @Typable("testIt")
 @Routable('testIt', {
-  displayName: 'TestIt',
-  description: 'This is a Test of the automated Component Generation System'
+  displayName: '',
+  description: ''
 })
-@connect((state, ownProps) => {
+@connect((state) => {
     return {
       testIt: state.app.base.testIt
     };
@@ -41,7 +42,7 @@ class testIt extends Component {
     foo: casual.integer(),
     bar: casual.array_of_digits().reduce((st, it)=>{st[casual.word] = it; return st;}, {}),
     baz: casual.string,
-    bing: ()=> {console.log('Empty Function')}
+    bing: ()=>{console.log('Empty Function')}
   }
 
   render() {

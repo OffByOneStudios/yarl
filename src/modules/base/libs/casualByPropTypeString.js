@@ -21,10 +21,10 @@ function casualByPropTypeString(propType) {
     return 'casual.sentence';
   }
   else if(propType === 'number') {
-    return 'casual.integer';
+    return 'casual.integer()';
   }
   else if(propType === 'object') {
-    return 'casual.array_of_digits.reduce((st, it)=>{st[casual.word] = it; return st;}, {})';
+    return 'casual.array_of_digits().reduce((st, it)=>{st[casual.word] = it; return st;}, {})';
   }
   else {
     return 'casual.random';
