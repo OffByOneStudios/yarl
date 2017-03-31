@@ -107,10 +107,7 @@ class ${componentName} extends Component {
   render() {
     const body = baseRenderByPropType('${moduleName}', '${componentName}', this.props, ${componentName}.propTypes);
     return (
-      <div>
-        <h3>${componentName}</h3>
-        {body}
-      </div>
+      {body}
     );
   }
 }

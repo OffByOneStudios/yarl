@@ -47,11 +47,6 @@ class testIt extends Component {
 
   render() {
     const body = baseRenderByPropType('base', 'testIt', this.props, testIt.propTypes);
-    return (
-      <div>
-        <h3>testIt</h3>
-        {body}
-      </div>
-    );
+    return body;
   }
 }
