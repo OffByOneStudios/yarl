@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'cheap-module-eval-source-map',
   context: path.resolve(__dirname, 'src'),
   entry: [
     'react-hot-loader/patch',

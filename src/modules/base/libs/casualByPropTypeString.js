@@ -5,7 +5,6 @@ import casual from 'casual-browserify';
 import {PropTypes} from 'react';
 
 function casualByPropTypeString(propType) {
-  console.log(propType);
   if(casual[propType] !== undefined) {
     return `casual.${propType}()`;
   }
@@ -16,7 +15,7 @@ function casualByPropTypeString(propType) {
     return `casual.coin_flip`;
   }
   else if(propType === 'func') {
-    return `()=>console.log('Empty Function')`;
+    return `()=>{console.log('Empty Function')}`;
   }
   else if(propType === 'string') {
     return 'casual.sentence';

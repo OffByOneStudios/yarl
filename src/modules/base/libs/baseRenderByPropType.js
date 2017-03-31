@@ -6,8 +6,8 @@ import Tagable from '../../../configure/libs/tagable'
 
 import React, {Component, PropTypes} from 'react';
 
-function valueFor(moduleName, componentName, prop, type) {
-  if(type === PropTypes.object) {
+function valueFor(moduleName, componentName, propName, prop, type) {
+  if(type === PropTypes.array) {
     return (
       <ol className={`${moduleName}-${componentName}-${propName}-value`}>
         {
@@ -77,12 +77,12 @@ function baseRenderByPropType(moduleName, componentName, props, propTypes) {
 
   const body = Object.keys(propTypes).map((e, i) => {
     return (
-      <div className={`.${e} .${moduleName}-${componentName}-${propName}-container`}>
-        <div className={`${moduleName}-${componentName}-${propName}-label`}>
+      <div key={i} className={`.${e} .${moduleName}-${componentName}-${e}-container`}>
+        <div className={`${moduleName}-${componentName}-${e}-label`}>
           {e}
         </div>
-        <div className={`${moduleName}-${componentName}-${propName}-value-container`}>
-          {valueFor(moduleName, componentName, props[e], propTypes[e])}
+        <div className={`${moduleName}-${componentName}-${e}-value-container`}>
+          {valueFor(moduleName, componentName, e,  props[e], propTypes[e])}
         </div>
       </div>
     );

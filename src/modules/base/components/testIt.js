@@ -25,8 +25,10 @@ import baseRenderByPropType from '../libs/baseRenderByPropType'
   displayName: 'TestIt',
   description: 'This is a Test of the automated Component Generation System'
 })
-@connect((state)=>{
-    testIt: state.app.base.testIt
+@connect((state, ownProps) ==> {
+    return {
+      testIt: state.app.base.testIt
+    };
 })
 class testIt extends Component {
   static propTypes = {
@@ -36,14 +38,14 @@ class testIt extends Component {
     bing: PropTypes.func
   }
   static defaultProps = {
-    foo: casual.integer,
+    foo: casual.integer(),
     bar: casual.array_of_digits().reduce((st, it)=>{st[casual.word] = it; return st;}, {}),
     baz: casual.string,
-    bing: ()=>console.log('Empty Function')
+    bing: ()=> {console.log('Empty Function')}
   }
 
   render() {
-    const body = baseRenderByPropType('base', 'testIt', this.props, this.propTypes);
+    const body = baseRenderByPropType('base', 'testIt', this.props, testIt.propTypes);
     return (
       <div>
         <h3>testIt</h3>

@@ -26,8 +26,10 @@ function useDocumentable(name, args=[]) {
 }
 
 function useConnectable(moduleName, componentName) {
-  return `@connect((state)=>{
-    ${componentName}: state.app.${moduleName}.${componentName}
+  return `@connect((state) => {
+    return {
+      ${componentName}: state.app.${moduleName}.${componentName}
+    };
 })`
 }
 
@@ -95,7 +97,7 @@ class ${componentName} extends Component {
   }
 
   render() {
-    const body = baseRenderByPropType('${moduleName}', '${componentName}', this.props, this.propTypes);
+    const body = baseRenderByPropType('${moduleName}', '${componentName}', this.props, ${componentName}.propTypes);
     return (
       <div>
         <h3>${componentName}</h1>
