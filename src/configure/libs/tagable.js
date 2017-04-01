@@ -19,7 +19,7 @@ function Tagable(props) {
 
 export default Documentable({
   text: `
-  Add machine readable metadata for a function.
+Add machine readable metadata for a function.
   `,
   args: {
     tags: `Hash of key value pairs`

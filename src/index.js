@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
+
 import {Provider} from 'react-redux';
 
+import { AppContainer } from 'react-hot-loader';
 // Import This First
 import libs from './configure/libs';
 import entrypoint from './configure/entrypoint';
@@ -13,19 +14,14 @@ import modules from './modules';
 
 function render() {
   ReactDOM.render((
-  <AppContainer>
-    <Provider store={Context.Store}>
-      <NavContainer />
-    </Provider>
-  </AppContainer>
+    <AppContainer>
+      <Provider store={Context.Store}>
+        <NavContainer />
+      </Provider>
+    </AppContainer>
 ), document.getElementById('react-root'));
 }
 
-
-if (module.hot) {
-  module.hot.accept('./', render)
-  // module.hot.accept('./modules', render);
-}
 
 function extractDefaultState(modules) {
   return Object.keys(modules).reduce((st, e)=> {
@@ -66,10 +62,12 @@ if(YARL_ENTRYPOINT) {
     Context.Commander.parse(process.argv);
   }
   else {
-    console.log('Entry');
-    console.log(require('casual-browserify'));
     window.defaultState = extractDefaultState(modules);
     window.Context = entrypoint(defaultState);
+    module.hot.accept('./', ()=> {
+      debugger;
+      render();
+    })
     render(modules, defaultState);
   }
 }

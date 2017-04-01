@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+//const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
+//const WebpackChunkHash = require("webpack-chunk-hash");
 
 
 function definesFor(env) {
@@ -50,7 +52,7 @@ function definesFor(env) {
 }
 
 module.exports = (env)=> {
-  console.log(env);
+
   return {
     devtool: 'cheap-module-eval-source-map',
     context: path.resolve(__dirname, 'src'),
@@ -60,13 +62,11 @@ module.exports = (env)=> {
       'webpack/hot/only-dev-server',
       './index.js'
     ],
-
-
     output: {
       path: path.resolve(__dirname, "static"),
-      filename: 'bundle.js',
       publicPath: 'static',
       library: 'yarl',
+      filename: "[name].js"
     },
 
     devServer: {
@@ -87,9 +87,7 @@ module.exports = (env)=> {
         {
           test: /\.js$/,
           include: path.join(__dirname, 'src'),
-          use: {
-            loader: 'babel-loader',
-          }
+          loader: ['babel-loader'],
         },
         {
           test: /\.(png|woff2|svg|ttf|woff|eot)(\?.*)?$/,
@@ -105,14 +103,20 @@ module.exports = (env)=> {
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
-      new webpack.DefinePlugin(definesFor(env)),
-      // new webpack.optimize.CommonsChunkPlugin({
-      //   name: 'vendor',
-      //   minChunks: function (module) {
-      //      // this assumes your vendor imports exist in the node_modules directory
-      //      return module.context && module.context.indexOf('node_modules') !== -1;
-      //   }
-      // })
+      new webpack.EnvironmentPlugin({
+        NODE_ENV: "notproduction"
+      }),
+      new webpack.DefinePlugin(Object.assign({}, definesFor(env),
+        {}
+      )),
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        filename: 'vendor.js',
+        minChunks: function (module) {
+           // this assumes your vendor imports exist in the node_modules directory
+           return module.context && module.context.indexOf('node_modules') !== -1;
+        }
+      })
     ],
 
   }
