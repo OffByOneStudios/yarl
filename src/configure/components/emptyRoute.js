@@ -52,9 +52,8 @@ export default class emptyRoute extends Component {
       return (
         <div key={i}>
           <div className="hoverable" onClick={() => {$d($a("setNav")(e))}}>
-            {e}
+            <div>{Context.Routes[e].displayName || e}</div>
           </div>
-          <div>{Context.Routes[e].displayName}</div>
           <div>{Context.Routes[e].description}</div>
         </div>
       )

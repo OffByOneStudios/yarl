@@ -2,25 +2,23 @@ const path = require('path');
 const webpack = require('webpack');
 //const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
 //const WebpackChunkHash = require("webpack-chunk-hash");
-
-
 function definesFor(env) {
-  switch (env.yarltarget) {
-    case "browser":
+  switch (env.target) {
+    case "web":
       return {
         YARL_BROWSER: true,
         YARL_ELECTRON: false,
         YARL_NATIVE: false,
         YARL_ENTRYPOINT: env.yarlentry
       }
-    case "ebrowser":
+    case "electron-renderer":
       return {
         YARL_BROWSER: true,
         YARL_ELECTRON: true,
         YARL_NATIVE: false,
         YARL_ENTRYPOINT: env.yarlentry
       }
-    case "eserver":
+    case "electron-main":
       return {
         YARL_BROWSER: false,
         YARL_ELECTRON: true,
@@ -34,10 +32,10 @@ function definesFor(env) {
         YARL_NATIVE: true,
         YARL_ENTRYPOINT: env.yarlentry
       }
-    case "server":
+    case "node":
       return {
-        YARL_BROWSER: true,
-        YARL_ELECTRON_RENDER: false,
+        YARL_BROWSER: false,
+        YARL_ELECTRON: false,
         YARL_NATIVE: false,
         YARL_ENTRYPOINT: env.yarlentry
       }
@@ -56,6 +54,8 @@ module.exports = (env)=> {
   return {
     devtool: 'cheap-module-eval-source-map',
     context: path.resolve(__dirname, 'src'),
+    target: env.target,
+
     entry: [
       'react-hot-loader/patch',
       'webpack-dev-server/client?http://localhost:3020',

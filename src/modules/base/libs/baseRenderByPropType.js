@@ -77,7 +77,7 @@ function baseRenderByPropType(moduleName, componentName, props, propTypes) {
 
   const body = Object.keys(propTypes).map((e, i) => {
     return (
-      <div key={i} className={`.${e} .${moduleName}-${componentName}-${e}-container`}>
+      <div key={i} className={`${moduleName}-${componentName}-${e}-container`}>
         <div className={`${moduleName}-${componentName}-${e}-label`}>
           {e}
         </div>
