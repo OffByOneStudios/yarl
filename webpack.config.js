@@ -2,6 +2,23 @@ const path = require('path');
 const webpack = require('webpack');
 //const ChunkManifestPlugin = require("chunk-manifest-webpack-plugin");
 //const WebpackChunkHash = require("webpack-chunk-hash");
+
+function outputFor(env) {
+  switch (env.target) {
+    case "web":
+      return "static";
+    case "electron-renderer":
+      return "static";
+    case "electron-main":
+      return "dist";
+    case "native":
+      return "dist";
+    case "node":
+      return "dist";
+    default:
+      return "";
+  }
+}
 function definesFor(env) {
   switch (env.target) {
     case "web":
@@ -57,21 +74,21 @@ module.exports = (env)=> {
     target: env.target,
 
     entry: [
-      'react-hot-loader/patch',
+      // 'react-hot-loader/patch',
       'webpack-dev-server/client?http://localhost:3020',
       'webpack/hot/only-dev-server',
       './index.js'
     ],
     output: {
-      path: path.resolve(__dirname, "static"),
-      publicPath: 'static',
+      path: path.resolve(__dirname, outputFor(env)),
+      publicPath: outputFor(env),
       library: 'yarl',
       filename: "[name].js"
     },
 
     devServer: {
       hot: true,
-      contentBase: path.resolve(__dirname, 'static'),
+      contentBase: path.resolve(__dirname, outputFor(env)),
       headers: {
         "Access-Control-Allow-Origin": "http://localhost:*"
       },
@@ -103,9 +120,6 @@ module.exports = (env)=> {
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NamedModulesPlugin(),
-      new webpack.EnvironmentPlugin({
-        NODE_ENV: "notproduction"
-      }),
       new webpack.DefinePlugin(Object.assign({}, definesFor(env),
         {}
       )),

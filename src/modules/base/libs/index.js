@@ -1,5 +1,3 @@
-'use babel'
-
 import baseRenderByPropType from './baseRenderByPropType.js';
 import casualByPropTypeString from './casualByPropTypeString.js';
 import emptyUtility from './emptyUtility.js';
@@ -8,14 +6,13 @@ import newComponent from './newComponent.js';
 import newFunction from './newFunction.js';
 import newModule from './newModule.js';
 import regenerateIndex from './regenerateIndex.js';
-
 export default {
-  baseRenderByPropType,
-  casualByPropTypeString,
-  emptyUtility,
-  newAction,
-  newComponent,
-  newFunction,
-  newModule,
-  regenerateIndex,
+baseRenderByPropType,
+casualByPropTypeString,
+emptyUtility,
+newAction,
+newComponent,
+newFunction,
+newModule,
+regenerateIndex,
 };

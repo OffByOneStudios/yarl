@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import {Provider} from 'react-redux';
 
-import { AppContainer } from 'react-hot-loader';
+// import { AppContainer } from 'react-hot-loader';
 // Import This First
 import libs from './configure/libs';
 import entrypoint from './configure/entrypoint';
@@ -12,14 +12,16 @@ import NavContainer from './configure/components/navContainer';
 // Then Load Modules.
 import modules from './modules';
 
-function render() {
+function wmain() {
   ReactDOM.render((
-    <AppContainer>
-      <Provider store={Context.Store}>
-        <NavContainer />
-      </Provider>
-    </AppContainer>
-), document.getElementById('react-root'));
+    <Provider store={Context.Store}>
+      <NavContainer />
+    </Provider>
+  ), document.getElementById('react-root'));
+}
+
+function nmain() {
+  Context.Commander.parse(process.argv);
 }
 
 
@@ -52,22 +54,23 @@ export {
 export default {
   extractDefaultState,
   entrypoint,
-  render
+  wmain,
+  nmain
 }
 
 if(YARL_ENTRYPOINT) {
-  if(!YARL_BROWSER) {
-    const defaultState = extractDefaultState(modules);
-    const Context = entrypoint(defaultState);
-    Context.Commander.parse(process.argv);
-  }
-  else {
+  if(YARL_BROWSER) {
     window.defaultState = extractDefaultState(modules);
     window.Context = entrypoint(defaultState);
     module.hot.accept('./', ()=> {
-      debugger;
-      render();
+      wmain();
     })
-    render(modules, defaultState);
+    wmain();
+  }
+  else {
+    global.defaultState = extractDefaultState(modules);
+    global.Context = entrypoint(defaultState);
+
+    nmain();
   }
 }

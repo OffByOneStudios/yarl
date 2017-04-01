@@ -1,5 +1,7 @@
 
 'use babel'
+import {compose} from 'redux';
+import Commandable from '../../../configure/libs/commandable'
 import Documentable from '../../../configure/libs/documentable';
 
 let fs, path;
@@ -8,17 +10,38 @@ if(!YARL_BROWSER) {
   path = require('path');
 }
 
-function regenerateIndex(directory) {
+function importByFileName(item) {
+  const parts = item.split(".");
+  const ext = parts[parts.length -1];
+  if (ext === "js" || ext === "jsx") {
+    return `import ${parts[0]} from './${item}';`;
+  }
+  else {
+    return `import './${item}';`;
+  }
+}
 
+function regenerateIndex(directory) {
   const items = fs.readdirSync(directory).filter((e) => {return e !== '.DS_Store' && e !== 'index.js';});
-  const _imports = items.map((e) => { return `import ${e.split('.')[0]} from './${e}';`;});
-  const _exports = items.map((e) => { return `  ${e.split('.')[0]},`});
+  const _imports = items.map((e) => { return importByFileName(e)});
+  const _exports = items.filter((e)=>{
+    const parts = e.split(".");
+    const ext = parts[parts.length -1];
+    return ["js", "jsx"].includes(ext);
+  }).map((e) => { return `${e.split('.')[0]},`});
   return fs.writeFile(
     `${directory}/index.js`,
     `${_imports.join('\n')}\nexport default {\n${_exports.join('\n')}\n};\n`
   );
 }
-export default Documentable({
+export default compose(
+  Commandable((program) => {
+    program
+      .command('regenerateIndex <path>')
+      .description('Regenerate the index.js file of a directory')
+      .action(regenerateIndex);
+  }),
+  Documentable({
   text: `
 # regenerateIndex
 Given a directory, ouput an index.js file of the form:
@@ -37,4 +60,5 @@ This pattern is used throughout Yarl to auto import code
   args: {
     directory: `Directory to Regenerate`
   }
-})(regenerateIndex)
+  })
+)(regenerateIndex)

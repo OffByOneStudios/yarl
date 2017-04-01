@@ -6,7 +6,7 @@
   "scripts": {
     "dev-client": "webpack-dev-server --port 3020 --env.target=web --env.yarlentry=true",
     "build-client": "webpack --env.target=web --env.yarlentry=true",
-    "dev-server": "webpack --config=weback.node.config.js --watch --env.target=node --env.yarlentry=true",
+    "dev-server": "babel --watch src --out-dir dist",
     "prepublish": "npm run dist-client"
   },
   "bin": {
@@ -23,6 +23,7 @@
     "graphql-tools": "^0.11.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-hot-loader": "^1.3.1",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0"
@@ -30,6 +31,7 @@
   "devDependencies": {
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
+    "babel-eslint": "^7.2.1",
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-async-to-generator": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.23.0",
@@ -41,7 +43,6 @@
     "babel-preset-stage-2": "^6.22.0",
     "eslint": "^3.17.1",
     "eslint-plugin-react": "^6.10.0",
-    "react-hot-loader": "gaearon/react-hot-loader",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.2"
   }
