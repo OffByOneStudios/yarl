@@ -4,7 +4,7 @@
   "description": "Yet Another React Library",
   "main": "dist/index.js",
   "scripts": {
-    "dev-client": "webpack-dev-server --port 3020",
+    "dev-client": "webpack-dev-server --port 3020 --env.yarltarget=browser --env.yarlentry=true",
     "build-client": "webpack --output-path dist/",
     "dist-client": "babel src --out-dir dist/",
     "cli": "node dist/cli",
@@ -12,7 +12,7 @@
     "prepublish": "npm run dist-client"
   },
   "bin": {
-    "yarl": "dist/index.js"
+    "yarl": "dist/cli.js"
   },
   "author": "OffByOne Studios",
   "license": "MIT",
