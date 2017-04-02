@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {Provider} from 'react-redux';
-
+import {ApolloProvider} from 'react-apollo';
 // import { AppContainer } from 'react-hot-loader';
 // Import This First
 import libs from './configure/libs';
@@ -14,9 +14,9 @@ import modules from './modules';
 
 function wmain() {
   ReactDOM.render((
-    <Provider store={Context.Store}>
+    <ApolloProvider store={Context.Store} client={Context.GraphQL}>
       <NavContainer />
-    </Provider>
+    </ApolloProvider>
   ), document.getElementById('react-root'));
 }
 
@@ -34,6 +34,45 @@ function extractDefaultState(modules) {
   }, {})
 }
 
+function extractGraphQLSchema(modules) {
+  let gather = Object.keys(modules).reduce((st, e)=> {
+    if(modules[e].model !== undefined) {
+      st.inputs = st.inputs.concat(
+        Object.keys(modules[e].model.inputs).map((f) => {
+          return modules[e].model.inputs[f];
+        })
+      );
+
+      st.types = st.types.concat(
+        Object.keys(modules[e].model.types).map((f) => {
+          return modules[e].model.types[f];
+        })
+      );
+
+      st.queries.push(modules[e].model.queries);
+      st.mutations.push(modules[e].model.mutations);
+    }
+    return st;
+  }, {types:[], inputs: [], queries: [], mutations:[] })
+
+  return `
+${gather.types.join("\n")}
+${gather.inputs.join("\n")}
+
+type Query {
+  ${gather.queries.join("\n  ")}
+}
+
+type Mutation {
+  ${gather.mutations.join("\n  ")}
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+`;
+}
 
 let Documentable = libs.documentable;
 let Reducable = libs.reducable;
@@ -61,7 +100,8 @@ export default {
 if(YARL_ENTRYPOINT) {
   if(YARL_BROWSER) {
     window.defaultState = extractDefaultState(modules);
-    window.Context = entrypoint(defaultState);
+    const Schema = (extractGraphQLSchema(modules));
+    window.Context = entrypoint(defaultState, {}, [], Schema);
     module.hot.accept('./', ()=> {
       wmain();
     })
@@ -69,7 +109,8 @@ if(YARL_ENTRYPOINT) {
   }
   else {
     global.defaultState = extractDefaultState(modules);
-    global.Context = entrypoint(defaultState);
+    const Schema = (extractGraphQLSchema(modules));
+    global.Context = entrypoint(defaultState, {}, [], Schema);
 
     nmain();
   }
