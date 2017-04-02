@@ -5,6 +5,7 @@ import newAction from './newAction.js';
 import newComponent from './newComponent.js';
 import newFunction from './newFunction.js';
 import newModule from './newModule.js';
+import newQuery from './newQuery.js';
 import regenerateIndex from './regenerateIndex.js';
 export default {
 baseRenderByPropType,
@@ -14,5 +15,6 @@ newAction,
 newComponent,
 newFunction,
 newModule,
+newQuery,
 regenerateIndex,
 };
