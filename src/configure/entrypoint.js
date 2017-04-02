@@ -28,7 +28,14 @@ let entrypoint;
 if(YARL_BROWSER) {
   entrypoint = (defaultState={}, reducers={}, middlewares=[], schemaString=emptySchema) => {
     const apollo = require('react-apollo');
-    const GraphQL = new apollo.ApolloClient();
+
+    const networkInterface = apollo.createNetworkInterface({
+      uri: 'http://localhost:3000/graphql',
+      // opts: {
+      //   credentials: 'include',
+      // },
+    })
+    const GraphQL = new apollo.ApolloClient({networkInterface});
 
     const reducer = combineReducers({
       app: libs.reduce,

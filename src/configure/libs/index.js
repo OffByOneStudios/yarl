@@ -8,6 +8,7 @@ import reducable from './reducable.js';
 import reduce from './reduce.js';
 import resolvable from './resolvable.js';
 import routable from './routable.js';
+import serveForever from './serveForever.js';
 import tagable from './tagable.js';
 import testable from './testable.js';
 import typable from './typable.js';
@@ -21,6 +22,7 @@ export default {
   reduce,
   resolvable,
   routable,
+  serveForever,
   tagable,
   testable,
   typable,

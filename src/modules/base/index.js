@@ -5,7 +5,11 @@ import components from './components';
 import defaultState from './defaultState.js';
 import libs from './libs';
 import model from './model';
-import styles from './styles';
+let styles = {};
+
+if(YARL_BROWSER) {
+  styles = require('./styles');
+}
 
 export default {
   actions,

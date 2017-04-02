@@ -99,6 +99,7 @@ export default {
 
 if(YARL_ENTRYPOINT) {
   if(YARL_BROWSER) {
+    window.gql = require('react-apollo').gql;
     window.defaultState = extractDefaultState(modules);
     const Schema = (extractGraphQLSchema(modules));
     window.Context = entrypoint(defaultState, {}, [], Schema);
