@@ -13,11 +13,11 @@ if(!YARL_BROWSER) {
 function importByFileName(item) {
   const parts = item.split(".");
   const ext = parts[parts.length -1];
-  if (ext === "js" || ext === "jsx") {
-    return `import ${parts[0]} from './${item}';`;
+  if (ext === "css") {
+    return `import './${item}';`;
   }
   else {
-    return `import './${item}';`;
+    return `import ${parts[0]} from './${item}';`;
   }
 }
 

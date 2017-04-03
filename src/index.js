@@ -110,7 +110,7 @@ if(YARL_ENTRYPOINT) {
   }
   else {
     global.defaultState = extractDefaultState(modules);
-    const Schema = (extractGraphQLSchema(modules));
+    const Schema = extractGraphQLSchema(modules);
     global.Context = entrypoint(defaultState, {}, [], Schema);
 
     nmain();

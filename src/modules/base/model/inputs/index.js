@@ -1,7 +1,6 @@
-'use babel'
-
 import auth from './auth.js';
-
+import isoda from './isoda.js';
 export default {
-  auth,
+auth,
+isoda,
 };

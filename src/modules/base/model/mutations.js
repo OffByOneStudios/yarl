@@ -1,3 +1,3 @@
 export default `
-  newPost(text: String!): Int!
-`;
+newPost(text: String): Int
+`

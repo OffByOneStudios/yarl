@@ -20,7 +20,7 @@ function splitArgTypes(argTypes) {
   })
 }
 
-function newQuery(moduleName, queryName, returnType, argTypes) {
+function newMutation(moduleName, mutationName, returnType, argTypes) {
 
   if(!fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
   {
@@ -28,16 +28,16 @@ function newQuery(moduleName, queryName, returnType, argTypes) {
     return;
   }
 
-  const queryFile = fs.readFileSync(path.join(process.cwd(),
-    `src/modules/${moduleName}/model/queries.js`)).toString();
+  const mutationFile = fs.readFileSync(path.join(process.cwd(),
+    `src/modules/${moduleName}/model/mutations.js`)).toString();
 
-  const t1 = queryFile.indexOf('`') + 1;
-  const t2 = queryFile.lastIndexOf('`');
+  const t1 = mutationFile.indexOf('`') + 1;
+  const t2 = mutationFile.lastIndexOf('`');
 
-  let queries = queryFile.slice(t1, t2).split("\n");
-  for (let q = 0; q < queries.length; q++) {
-    if(queries[q].includes(queryName)) {
-      console.error(`Query ${queryName} already exists in module ${moduleName}`);
+  let mutations = mutationFile.slice(t1, t2).split("\n");
+  for (let q = 0; q < mutations.length; q++) {
+    if(queries[q].includes(mutationName)) {
+      console.error(`Query ${mutationName} already exists in module ${moduleName}`);
       return;
     }
   }
@@ -60,37 +60,37 @@ function newQuery(moduleName, queryName, returnType, argTypes) {
       return;
     }
     if(typ.constructor.name === 'GraphQLObjectType') {
-      console.error(`Argument ${args[i].name}'s type ${args[i].type} Must be either Scalar or InputType, not ObjectType`);
+      console.error(`Argument ${args[i].name}'s type ${args[i].type} Must be either Scaler or InputType, not ObjectType`);
       return;
     }
   }
-  queries.push(`${queryName}${args.length ? `(${argTypes})` : ''}: ${returnType}`);
+  mutations.push(`${mutationName}${args.length ? `(${argTypes})` : ''}: ${returnType}`);
 
   fs.writeFileSync(
-    path.join(process.cwd(),`src/modules/${moduleName}/model/queries.js`),
+    path.join(process.cwd(),`src/modules/${moduleName}/model/mutations.js`),
 `export default \`
-${queries.join("\n")}
+${mutations.join("\n")}
 \`;
 `.replace("\n\n", "\n"));
 }
 
 export default compose (
   Documentable({
-  text: `# newQuery
-Generate a New GraphQL Query
+  text: `# newMutation
+Generate a New GraphQL Mutation
 `,
   args: {
     moduleName: 'Name of Module',
-    queryName: 'Name of Query',
+    mutationName: 'Name of Mutation',
     returnType: 'Type of Return. Required',
-    argTypes: 'Option Arguments to pass to query, in argName:Type pairs'
+    argTypes: 'Option Arguments to pass to Mutation, in argName:Type pairs'
   }
 }),
   Commandable((program) => {
   program
-    .command('newQuery <moduleName> <queryName> <returnType> [argTypes...]' )
-    .description('Create a New GraphQL Query')
-    .action(newQuery);
+    .command('newMutation <moduleName> <mutationName> <returnType> [argTypes...]' )
+    .description('Create a New GraphQL Mutation')
+    .action(newMutation);
 }),
   Tagable({platform: 'any'})
-)(newQuery);
+)(newMutation);
