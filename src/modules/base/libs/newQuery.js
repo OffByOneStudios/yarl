@@ -20,7 +20,9 @@ function splitArgTypes(argTypes) {
   })
 }
 
-function newQuery(moduleName, queryName, returnType, argTypes) {
+import newFunction from './newFunction';
+
+function newQuery(moduleName, queryName, returnType, argTypes, options) {
 
   if(!fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
   {
@@ -72,6 +74,16 @@ function newQuery(moduleName, queryName, returnType, argTypes) {
 ${queries.join("\n")}
 \`;
 `.replace("\n\n", "\n"));
+
+  if(options.resolver) {
+    newFunction(moduleName, queryName, args.map(e => {return e.name}), {
+      documentable: true,
+      resolvable: true,
+      yarl: options.yarl,
+      mutative: false,
+      promise: true
+    });
+  }
 }
 
 export default compose (
@@ -90,6 +102,8 @@ Generate a New GraphQL Query
   program
     .command('newQuery <moduleName> <queryName> <returnType> [argTypes...]' )
     .description('Create a New GraphQL Query')
+    .option('-r, --resolver', 'Generate a Resolver for this query')
+    .option('-y, --yarl', 'Generate inside the yarl Package')
     .action(newQuery);
 }),
   Tagable({platform: 'any'})

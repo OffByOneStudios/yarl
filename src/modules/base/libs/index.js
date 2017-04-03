@@ -1,5 +1,4 @@
-'use babel'
-
+import allTodos from './allTodos.js';
 import baseRenderByPropType from './baseRenderByPropType.js';
 import casualByPropTypeString from './casualByPropTypeString.js';
 import emptyUtility from './emptyUtility.js';
@@ -12,18 +11,18 @@ import newMutation from './newMutation.js';
 import newQuery from './newQuery.js';
 import newType from './newType.js';
 import regenerateIndex from './regenerateIndex.js';
-
 export default {
-  baseRenderByPropType,
-  casualByPropTypeString,
-  emptyUtility,
-  newAction,
-  newComponent,
-  newFunction,
-  newInput,
-  newModule,
-  newMutation,
-  newQuery,
-  newType,
-  regenerateIndex,
+allTodos,
+baseRenderByPropType,
+casualByPropTypeString,
+emptyUtility,
+newAction,
+newComponent,
+newFunction,
+newInput,
+newModule,
+newMutation,
+newQuery,
+newType,
+regenerateIndex,
 };

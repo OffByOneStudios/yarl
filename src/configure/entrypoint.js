@@ -60,7 +60,6 @@ if(YARL_BROWSER) {
 else {
   entrypoint = (defaultState={}, reducers={}, middlewares=[], schemaString=emptySchema) => {
     const graphql_tools = require('graphql-tools');
-
     const GraphQL = graphql_tools.makeExecutableSchema({
       typeDefs: [schemaString],
       resolvers: libs.context.Resolvers,

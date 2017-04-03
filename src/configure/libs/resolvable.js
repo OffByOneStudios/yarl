@@ -5,11 +5,12 @@ import Context from './context';
 function Resolvable(path) {
   return (target) => {
     const items = path.split(".");
-    let walk = Context.Resolver;
+    let walk = Context.Resolvers;
     for(let i = 0; i < items.length - 1; i++) {
       if(walk[items[i]] == undefined) {
         walk[items[i]] = {};
       }
+      walk = walk[items[i]];
     }
     if(walk[items[items.length - 1]] !== undefined) {
       console.info(`Resolver ${target.name} Is Overriding ${path}`);

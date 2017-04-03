@@ -43,6 +43,20 @@ function useTagable(name) {
   return `Tagable({platform: 'any'})`;
 }
 
+function useResolvable(functionName, command) {
+  const s = (command.mutative) ? 'Mutation': 'Query';
+  return `Resolvable('${s}.${functionName}')`;
+}
+
+function getBody(functionName, command) {
+  if(command.promise) {
+    return `return new Promise((resolve, reject) => {resolve({})});`;
+  }
+  else {
+    return `console.log(functionName)`;
+  }
+}
+
 function newFunction(moduleName, functionName, functionArgs, command) {
 
   if(!fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
@@ -63,15 +77,17 @@ function newFunction(moduleName, functionName, functionArgs, command) {
 import {compose} from 'redux';
 ${(command.documentable) ? `import Documentable from '${yarlPath}/configure/libs/documentable'`: ''}
 ${(command.commandable) ? `import Commandable from '${yarlPath}/configure/libs/commandable'`: ''}
+${(command.resolvable) ? `import Resolvable from '${yarlPath}/configure/libs/resolvable'`: ''}
 ${(command.tagable) ? `import Tagable from '${yarlPath}/configure/libs/tagable'`: ''}
 
 function ${functionName}(${functionArgs.join(",")}) {
-  console.log('${functionName}')
+  ${getBody(functionName, command)}
 }
 
 export default compose (
   ${(command.documentable) ? `${useDocumentable(functionName, functionArgs)}` : ''}
   ${(command.commandable) ? (useCommandable(functionName, functionArgs)) : ''}
+  ${(command.resolvable) ? (useResolvable(functionName, command)) : ''}
   ${(command.tagable) ? (useTagable(functionName)): ''}
 )(${functionName});
 `);
@@ -86,6 +102,8 @@ export default compose(
       .option('-d, --documentable', 'Add Documentable Decorator')
       .option('-c, --commandable', 'Add Commandable Decorator')
       .option('-t, --tagable', 'Add Tagable Decorator')
+      .option('-r, --resolvable', 'Add Resolvable Decorator')
+      .option('-p, --promise', 'Scaffold function with a promise')
       .option('-y, --yarl', 'Generate inside the yarl Package')
       .description('Create a new function')
       .action(newFunction);

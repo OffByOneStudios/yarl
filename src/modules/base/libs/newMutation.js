@@ -72,6 +72,16 @@ function newMutation(moduleName, mutationName, returnType, argTypes) {
 ${mutations.join("\n")}
 \`;
 `.replace("\n\n", "\n"));
+
+  if(options.resolver) {
+    newFunction(moduleName, queryName, args.map(e => {return e.name}), {
+      documentable: true,
+      resolvable: true,
+      yarl: options.yarl,
+      mutative: false,
+      promise: true
+    });
+  }
 }
 
 export default compose (
@@ -90,6 +100,8 @@ Generate a New GraphQL Mutation
   program
     .command('newMutation <moduleName> <mutationName> <returnType> [argTypes...]' )
     .description('Create a New GraphQL Mutation')
+    .option('-r, --resolver', 'Generate a Resolver for this query')
+    .option('-y, --yarl', 'Generate inside the yarl Package')
     .action(newMutation);
 }),
   Tagable({platform: 'any'})
