@@ -93,6 +93,7 @@ export {
 export default {
   extractDefaultState,
   entrypoint,
+  extractGraphQLSchema,
   wmain,
   nmain
 }
