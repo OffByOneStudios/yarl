@@ -1,15 +1,16 @@
 {
   "name": "@offbyonestudios/yarl",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Yet Another React Library",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "dev-client": "webpack-dev-server --port 3020 --env.target=web --env.yarlentry=true",
     "build-client": "webpack --env.target=web --env.yarlentry=true",
     "dev-server": "babel --watch src --out-dir dist",
     "cli": "node scripts/cli.js",
     "compile": "babel src --out-dir dist && babel scripts/dcli.js --out-file dist/cli.js",
-    "prepublish": "npm run compile"
+    "prepublish": "npm run compile && mv dist/* ./",
+    "postpublish": "git clean -df"
   },
   "bin": {
     "yarl": "dist/cli.js"

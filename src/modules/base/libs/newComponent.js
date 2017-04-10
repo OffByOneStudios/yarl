@@ -91,11 +91,11 @@ ${(options.typable) ? `import Typable from '${yarlPath}/configure/libs/typable';
 
 import baseRenderByPropType from '${yarlPath}/modules/base/libs/baseRenderByPropType';
 
-${(options.documentable) ? `${useDocumentable(componentName, propTypes)}` : ''}
 ${(options.tagable) ? `${useTagable(componentName)}` : ''}
 ${(options.typable) ? `@Typable("${componentName}")` : ''}
 ${(options.routable) ? `${useRoutable(componentName)}` : ''}
 ${(options.connectable) ? `${useConnectable(moduleName, componentName)}` : ''}
+${(options.documentable) ? `${useDocumentable(componentName, propTypes)}` : ''}
 class ${componentName} extends Component {
   static propTypes = {
     ${expandPropTypes(propTypes)}
