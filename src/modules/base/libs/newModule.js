@@ -43,6 +43,30 @@ export default {
 
 };
   `);
+
+  fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/model`));
+  fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/model/inputs`));
+  regenerateIndex(`${modulesPath}/${moduleName}/model/inputs`);
+  fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/model/types`));
+  regenerateIndex(`${modulesPath}/${moduleName}/model/types`);
+
+  fs.writeFileSync(`${modulesPath}/${moduleName}/model/mutations`, `
+'use babel'
+export default \`
+\`;
+`);
+
+  fs.writeFileSync(`${modulesPath}/${moduleName}/model/queries`, `
+'use babel'
+export default \`
+\`;
+`);
+
+  regenerateIndex(`${modulesPath}/${moduleName}/model`);
+
+  fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/styles/`));
+  regenerateIndex(`${modulesPath}/${moduleName}/model/styles`);
+
   regenerateIndex(`${modulesPath}/${moduleName}`);
 
   regenerateIndex(modulesPath);
