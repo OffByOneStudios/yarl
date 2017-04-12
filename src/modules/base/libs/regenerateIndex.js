@@ -24,14 +24,10 @@ function importByFileName(item) {
 function regenerateIndex(directory) {
   const items = fs.readdirSync(directory).filter((e) => {return e !== '.DS_Store' && e !== 'index.js';});
   const _imports = items.map((e) => { return importByFileName(e)});
-  const _exports = items.filter((e)=>{
-    const parts = e.split(".");
-    const ext = parts[parts.length -1];
-    return ["js", "jsx"].includes(ext);
-  }).map((e) => { return `${e.split('.')[0]},`});
+  const _exports = items.map((e) => { return `${e.split('.')[0]}`});
   return fs.writeFile(
     `${directory}/index.js`,
-    `${_imports.join('\n')}\nexport default {\n${_exports.join('\n')}\n};\n`
+    `${_imports.join('\n')}\nexport default {\n  ${_exports.join(',\n  ')}\n};\n`
   );
 }
 export default compose(

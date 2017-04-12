@@ -50,13 +50,13 @@ export default {
   fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/model/types`));
   regenerateIndex(`${modulesPath}/${moduleName}/model/types`);
 
-  fs.writeFileSync(`${modulesPath}/${moduleName}/model/mutations`, `
+  fs.writeFileSync(`${modulesPath}/${moduleName}/model/mutations.js`, `
 'use babel'
 export default \`
 \`;
 `);
 
-  fs.writeFileSync(`${modulesPath}/${moduleName}/model/queries`, `
+  fs.writeFileSync(`${modulesPath}/${moduleName}/model/queries.js`, `
 'use babel'
 export default \`
 \`;
@@ -65,7 +65,7 @@ export default \`
   regenerateIndex(`${modulesPath}/${moduleName}/model`);
 
   fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/styles/`));
-  regenerateIndex(`${modulesPath}/${moduleName}/model/styles`);
+  regenerateIndex(`${modulesPath}/${moduleName}/styles`);
 
   regenerateIndex(`${modulesPath}/${moduleName}`);
 
