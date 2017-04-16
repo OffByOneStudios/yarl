@@ -1,4 +1,6 @@
 export default `
+scalar JSON
+
 type Todo {
   completed:Boolean
   archived:Boolean

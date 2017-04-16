@@ -1,3 +1,5 @@
+require('isomorphic-fetch');
+
 import libs from './libs';
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import ReduxThunk from 'redux-thunk';
