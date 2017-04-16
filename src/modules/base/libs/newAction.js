@@ -103,14 +103,14 @@ function reducer(functionName, args, moduleName) {
 `
 }
 
-function newAction(moduleName, actionName, actionArgs, actionOptions) {
-  
-  if(!fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
+async function newAction(moduleName, actionName, actionArgs, actionOptions) {
+
+  if(!await fs.exists(path.join(process.cwd(), `src/modules/${moduleName}`)))
   {
     console.error(`No Such Module ${moduleName}`);
     return;
   }
-  if(fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}/actions/${functionName}.js`)))
+  if(await fs.exists(path.join(process.cwd(), `src/modules/${moduleName}/actions/${functionName}.js`)))
   {
     console.error(`Action ${actionName} Already Exists In ${moduleName}`);
     return;
@@ -119,7 +119,7 @@ function newAction(moduleName, actionName, actionArgs, actionOptions) {
   const outfile = path.join(process.cwd(), `src/modules/${moduleName}/actions/${functionName}.js`);
   const yarlPath = (command.yarl) ? '../../..': '@offbyonestudios/yarl';
 
-  fs.writeFileSync(outfile, `'use babel'
+  await fs.writeFile(outfile, `'use babel'
 import {compose} from 'redux';
 import 'whatwg-fetch';
 import Reducable from '${yarlPath}/configure/libs/reducable';
@@ -136,7 +136,7 @@ export default compose (
 )(${functionName});
 `);
 
-  regenerateIndex(path.join(process.cwd(), `src/modules/${moduleName}/libs/`));
+  await regenerateIndex(path.join(process.cwd(), `src/modules/${moduleName}/libs/`));
 }
 
 export default compose (

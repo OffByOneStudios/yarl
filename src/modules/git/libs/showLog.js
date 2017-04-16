@@ -30,6 +30,9 @@ async function showLog(_, {page, limit}) {
       });
     });
     history.on('end', (commits) => {
+      const p = (page) ? page : 0;
+      const l = (limit) ? limit: res.length;
+      // TODO Implemement Pagination
       resolve(res);
     });
     history.start();

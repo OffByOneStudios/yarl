@@ -14,23 +14,25 @@ import newQuery from './newQuery.js';
 import newStyle from './newStyle.js';
 import newType from './newType.js';
 import proxyRequest from './proxyRequest.js';
+import readDocs from './readDocs.js';
 import regenerateIndex from './regenerateIndex.js';
 export default {
-allTodos,
-baseRenderByPropType,
-casualByPropTypeString,
-cssStylesForPropTypes,
-emptyUtility,
-jsonType,
-newAction,
-newComponent,
-newFunction,
-newInput,
-newModule,
-newMutation,
-newQuery,
-newStyle,
-newType,
-proxyRequest,
-regenerateIndex,
+  allTodos,
+  baseRenderByPropType,
+  casualByPropTypeString,
+  cssStylesForPropTypes,
+  emptyUtility,
+  jsonType,
+  newAction,
+  newComponent,
+  newFunction,
+  newInput,
+  newModule,
+  newMutation,
+  newQuery,
+  newStyle,
+  newType,
+  proxyRequest,
+  readDocs,
+  regenerateIndex
 };

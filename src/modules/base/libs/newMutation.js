@@ -6,7 +6,8 @@ import Tagable from '../../../configure/libs/tagable'
 
 let fs, path;
 if(!YARL_BROWSER) {
-  fs = require('fs');
+  let bluebird = require("bluebird");
+  fs = bluebird.promisifyAll(require('fs'));
   path = require('path');
 }
 
@@ -20,15 +21,17 @@ function splitArgTypes(argTypes) {
   })
 }
 
-function newMutation(moduleName, mutationName, returnType, argTypes) {
-
-  if(!fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
+async function newMutation(moduleName, mutationName, returnType, argTypes) {
+  try
+  {
+    const mod = await fs.statAsync(path.join(process.cwd(), `src/modules/${moduleName}`));
+  }
+  catch(e)
   {
     console.error(`No Such Module ${moduleName}`);
-    return;
   }
 
-  const mutationFile = fs.readFileSync(path.join(process.cwd(),
+  const mutationFile = await fs.readFileAsync(path.join(process.cwd(),
     `src/modules/${moduleName}/model/mutations.js`)).toString();
 
   const t1 = mutationFile.indexOf('`') + 1;
@@ -66,7 +69,7 @@ function newMutation(moduleName, mutationName, returnType, argTypes) {
   }
   mutations.push(`${mutationName}${args.length ? `(${argTypes})` : ''}: ${returnType}`);
 
-  fs.writeFileSync(
+  await fs.writeFileAsync(
     path.join(process.cwd(),`src/modules/${moduleName}/model/mutations.js`),
 `export default \`
 ${mutations.join("\n")}
@@ -74,7 +77,7 @@ ${mutations.join("\n")}
 `.replace("\n\n", "\n"));
 
   if(options.resolver) {
-    newFunction(moduleName, queryName, args.map(e => {return e.name}), {
+    await newFunction(moduleName, queryName, args.map(e => {return e.name}), {
       documentable: true,
       resolvable: true,
       yarl: options.yarl,

@@ -8,9 +8,11 @@ import Tagable from '../../../configure/libs/tagable';
 
 import regenerateIndex from './regenerateIndex';
 
+
 let fs, path;
 if(!YARL_BROWSER) {
-  fs = require('fs');
+  let bluebird = require("bluebird");
+  fs = bluebird.promisifyAll(require('fs'));
   path = require('path');
 }
 
@@ -57,30 +59,34 @@ function getBody(functionName, command) {
   }
 }
 
-function newFunction(moduleName, functionName, functionArgs, command) {
-
-  if(!fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
+async function newFunction(moduleName, functionName, functionArgs, command) {
+  try
+  {
+    const mod = await fs.statAsync(path.join(process.cwd(), `src/modules/${moduleName}`));
+  }
+  catch(e)
   {
     console.error(`No Such Module ${moduleName}`);
-    return;
   }
-  if(fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}/libs/${functionName}.js`)))
+  try
   {
+    await fs.existsAsync(path.join(process.cwd(), `src/modules/${moduleName}/libs/${functionName}.js`));
     console.error(`Function ${functionName} Already Exists In ${moduleName}`);
-    return;
   }
+  catch (e) {}
 
   const outfile = path.join(process.cwd(), `src/modules/${moduleName}/libs/${functionName}.js`);
   const yarlPath = (command.yarl) ? '../../..': '@offbyonestudios/yarl';
+  const async = command.commandable|| command.asyc || command.resolvable;
 
-  fs.writeFileSync(outfile, `'use babel'
+  await fs.writeFileAsync(outfile, `'use babel'
 import {compose} from 'redux';
 ${(command.documentable) ? `import Documentable from '${yarlPath}/configure/libs/documentable'`: ''}
 ${(command.commandable) ? `import Commandable from '${yarlPath}/configure/libs/commandable'`: ''}
 ${(command.resolvable) ? `import Resolvable from '${yarlPath}/configure/libs/resolvable'`: ''}
 ${(command.tagable) ? `import Tagable from '${yarlPath}/configure/libs/tagable'`: ''}
 
-function ${functionName}(${functionArgs.join(",")}) {
+${(async) ? "async ": ""}function ${functionName}(${functionArgs.join(",")}) {
   ${getBody(functionName, command)}
 }
 
@@ -92,7 +98,7 @@ export default compose (
 )(${functionName});
 `);
 
-  regenerateIndex(path.join(process.cwd(), `src/modules/${moduleName}/libs/`));
+  await regenerateIndex(path.join(process.cwd(), `src/modules/${moduleName}/libs/`));
 }
 
 export default compose(
@@ -103,7 +109,7 @@ export default compose(
       .option('-c, --commandable', 'Add Commandable Decorator')
       .option('-t, --tagable', 'Add Tagable Decorator')
       .option('-r, --resolvable', 'Add Resolvable Decorator')
-      .option('-p, --promise', 'Scaffold function with a promise')
+      .option('-a, --async', 'Scaffold function as async (True iff -[arc])')
       .option('-y, --yarl', 'Generate inside the yarl Package')
       .description('Create a new function')
       .action(newFunction);

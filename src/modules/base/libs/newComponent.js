@@ -11,7 +11,8 @@ import regenerateIndex from './regenerateIndex';
 
 let fs, path;
 if(!YARL_BROWSER) {
-  fs = require('fs');
+  let bluebird = require("bluebird");
+  fs = bluebird.promisifyAll(require('fs'));
   path = require('path');
 }
 
@@ -64,21 +65,25 @@ function expandDefaultProps(pairList) {
   }).join(",\n    ");
 }
 
-function newComponent(moduleName, componentName, propTypes, options) {
-  if(!fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
+async function newComponent(moduleName, componentName, propTypes, options) {
+  try
+  {
+    const mod = await fs.statAsync(path.join(process.cwd(), `src/modules/${moduleName}`));
+  }
+  catch(e)
   {
     console.error(`No Such Module ${moduleName}`);
-    return;
   }
-  if(fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}/components/${componentName}.js`)))
+  try
   {
-    console.error(`Component ${componentName} Already Exists In ${moduleName}`);
-    return;
+    await fs.existsAsync(path.join(process.cwd(), `src/modules/${moduleName}/libs/${functionName}.js`));
+    console.error(`Component ${functionName} Already Exists In ${moduleName}`);
   }
+  catch (e) {}
 
   const outfile = path.join(process.cwd(), `src/modules/${moduleName}/components/${componentName}.js`);
   const yarlPath = (options.yarl) ? '../../..': '@offbyonestudios/yarl';
-  fs.writeFileSync(outfile, `'use babel'
+  await fs.writeFileAsync(outfile, `'use babel'
 import React, {Component, PropTypes} from 'react';
 
 ${(options.connectable) ? `import {connect} from 'react-redux';`: ''}
@@ -112,7 +117,7 @@ class ${componentName} extends Component {
   }
 }
 `);
-  regenerateIndex(path.join(process.cwd(), `src/modules/${moduleName}/components/`));
+  await regenerateIndex(path.join(process.cwd(), `src/modules/${moduleName}/components/`));
 }
 
 export default compose (

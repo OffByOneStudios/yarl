@@ -6,7 +6,8 @@ import Documentable from '../../../configure/libs/documentable';
 
 let fs, path;
 if(!YARL_BROWSER) {
-  fs = require('fs');
+  let bluebird = require("bluebird");
+  fs = bluebird.promisifyAll(require('fs'));
   path = require('path');
 }
 
@@ -21,11 +22,12 @@ function importByFileName(item) {
   }
 }
 
-function regenerateIndex(directory) {
-  const items = fs.readdirSync(directory).filter((e) => {return e !== '.DS_Store' && e !== 'index.js';});
+async function regenerateIndex(directory) {
+  let items = await fs.readdirAsync(directory);
+  items = items.filter((e) => {return e !== '.DS_Store' && e !== 'index.js';});
   const _imports = items.map((e) => { return importByFileName(e)});
   const _exports = items.map((e) => { return `${e.split('.')[0]}`});
-  return fs.writeFile(
+  await fs.writeFile(
     `${directory}/index.js`,
     `${_imports.join('\n')}\nexport default {\n  ${_exports.join(',\n  ')}\n};\n`
   );

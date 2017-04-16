@@ -5,19 +5,19 @@ import Commandable from '../../../configure/libs/commandable'
 
 import Tagable from '../../../configure/libs/tagable'
 
-function newStyle(moduleName, styleName, propTypes, options) {
-  if(!fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
+async function newStyle(moduleName, styleName, propTypes, options) {
+  if(! await fs.exists(path.join(process.cwd(), `src/modules/${moduleName}`)))
   {
     console.error(`No Such Module ${moduleName}`);
     return;
   }
-  if(fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}/styles/${styleName}.js`)))
+  if(await fs.exists(path.join(process.cwd(), `src/modules/${moduleName}/styles/${styleName}.js`)))
   {
     console.error(`Stylesheet ${styleName} Already Exists In ${moduleName}`);
     return;
   }
 
-  
+
 
 }
 

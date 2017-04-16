@@ -6,7 +6,8 @@ import Tagable from '../../../configure/libs/tagable'
 
 let fs, path;
 if(!YARL_BROWSER) {
-  fs = require('fs');
+  let bluebird = require("bluebird");
+  fs = bluebird.promisifyAll(require('fs'));
   path = require('path');
 }
 
@@ -22,15 +23,17 @@ function splitArgTypes(argTypes) {
 
 import newFunction from './newFunction';
 
-function newQuery(moduleName, queryName, returnType, argTypes, options) {
-
-  if(!fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
+async function newQuery(moduleName, queryName, returnType, argTypes, options) {
+  try
+  {
+    const mod = await fs.statAsync(path.join(process.cwd(), `src/modules/${moduleName}`));
+  }
+  catch(e)
   {
     console.error(`No Such Module ${moduleName}`);
-    return;
   }
 
-  const queryFile = fs.readFileSync(path.join(process.cwd(),
+  const queryFile = await fs.readFileAsync(path.join(process.cwd(),
     `src/modules/${moduleName}/model/queries.js`)).toString();
 
   const t1 = queryFile.indexOf('`') + 1;
@@ -68,7 +71,7 @@ function newQuery(moduleName, queryName, returnType, argTypes, options) {
   }
   queries.push(`${queryName}${args.length ? `(${argTypes})` : ''}: ${returnType}`);
 
-  fs.writeFileSync(
+  await fs.writeFileAsync(
     path.join(process.cwd(),`src/modules/${moduleName}/model/queries.js`),
 `export default \`
 ${queries.join("\n")}
@@ -76,7 +79,7 @@ ${queries.join("\n")}
 `.replace("\n\n", "\n"));
 
   if(options.resolver) {
-    newFunction(moduleName, queryName, args.map(e => {return e.name}), {
+    await newFunction(moduleName, queryName, args.map(e => {return e.name}), {
       documentable: true,
       resolvable: true,
       yarl: options.yarl,

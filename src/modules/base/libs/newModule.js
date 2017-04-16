@@ -12,64 +12,68 @@ if(!YARL_BROWSER) {
   path = require('path');
 }
 
-function newModule(moduleName) {
+async function newModule(moduleName) {
 
   const modulesPath = path.join(process.cwd(), `src/modules`);
-  if(fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
+  try
   {
+    const mod = await fs.statAsync(path.join(process.cwd(), `src/modules/${moduleName}`));
     console.error(`Module already exists ${moduleName}`);
-    return;
   }
-  fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}`));
+  catch(e)
+  {
 
-  fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/actions`));
-  regenerateIndex(path.normalize(`${modulesPath}/${moduleName}/actions`));
+  }
+  await fs.mkdirAsync(path.normalize(`${modulesPath}/${moduleName}`));
 
-  fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/components`));
-  regenerateIndex(path.normalize(`${modulesPath}/${moduleName}/components`));
+  await fs.mkdirAsync(path.normalize(`${modulesPath}/${moduleName}/actions`));
+  await regenerateIndex(path.normalize(`${modulesPath}/${moduleName}/actions`));
 
-  fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/libs`));
-  fs.writeFileSync(path.normalize(`${modulesPath}/${moduleName}/libs/constants.js`), `
+  await fs.mkdirAsync(path.normalize(`${modulesPath}/${moduleName}/components`));
+  await regenerateIndex(path.normalize(`${modulesPath}/${moduleName}/components`));
+
+  await fs.mkdirAsync(path.normalize(`${modulesPath}/${moduleName}/libs`));
+  await fs.writeFileAsync(path.normalize(`${modulesPath}/${moduleName}/libs/constants.js`), `
 'use babel'
 export default {
 
 };
   `);
-  regenerateIndex(`${modulesPath}/${moduleName}/libs`);
+  await regenerateIndex(`${modulesPath}/${moduleName}/libs`);
 
-  fs.writeFileSync(`${modulesPath}/${moduleName}/defaultState.js`, `
+  await fs.writeFileAsync(`${modulesPath}/${moduleName}/defaultState.js`, `
 'use babel'
 export default {
 
 };
   `);
 
-  fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/model`));
-  fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/model/inputs`));
-  regenerateIndex(`${modulesPath}/${moduleName}/model/inputs`);
-  fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/model/types`));
-  regenerateIndex(`${modulesPath}/${moduleName}/model/types`);
+  await fs.mkdirAsync(path.normalize(`${modulesPath}/${moduleName}/model`));
+  await fs.mkdirAsync(path.normalize(`${modulesPath}/${moduleName}/model/inputs`));
+  await regenerateIndex(`${modulesPath}/${moduleName}/model/inputs`);
+  await fs.mkdirAsync(path.normalize(`${modulesPath}/${moduleName}/model/types`));
+  await regenerateIndex(`${modulesPath}/${moduleName}/model/types`);
 
-  fs.writeFileSync(`${modulesPath}/${moduleName}/model/mutations.js`, `
+  await fs.writeFileAsync(`${modulesPath}/${moduleName}/model/mutations.js`, `
 'use babel'
 export default \`
 \`;
 `);
 
-  fs.writeFileSync(`${modulesPath}/${moduleName}/model/queries.js`, `
+  await fs.writeFileAsync(`${modulesPath}/${moduleName}/model/queries.js`, `
 'use babel'
 export default \`
 \`;
 `);
 
-  regenerateIndex(`${modulesPath}/${moduleName}/model`);
+  await regenerateIndex(`${modulesPath}/${moduleName}/model`);
 
-  fs.mkdirSync(path.normalize(`${modulesPath}/${moduleName}/styles/`));
-  regenerateIndex(`${modulesPath}/${moduleName}/styles`);
+  await fs.mkdirAsync(path.normalize(`${modulesPath}/${moduleName}/styles/`));
+  await regenerateIndex(`${modulesPath}/${moduleName}/styles`);
 
-  regenerateIndex(`${modulesPath}/${moduleName}`);
+  await regenerateIndex(`${modulesPath}/${moduleName}`);
 
-  regenerateIndex(modulesPath);
+  await regenerateIndex(modulesPath);
 }
 
 export default compose (

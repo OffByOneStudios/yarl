@@ -8,7 +8,8 @@ import regenerateIndex from './regenerateIndex';
 
 let fs, path;
 if(!YARL_BROWSER) {
-  fs = require('fs');
+  let bluebird = require("bluebird");
+  fs = bluebird.promisifyAll(require('fs'));
   path = require('path');
 }
 
@@ -22,11 +23,14 @@ function splitFieldTypes(fieldTypes) {
   })
 }
 
-function newType(moduleName, typeName, fieldTypes) {
-  if(!fs.existsSync(path.join(process.cwd(), `src/modules/${moduleName}`)))
+async function newType(moduleName, typeName, fieldTypes) {
+  try
+  {
+    const mod = await fs.statAsync(path.join(process.cwd(), `src/modules/${moduleName}`));
+  }
+  catch(e)
   {
     console.error(`No Such Module ${moduleName}`);
-    return;
   }
   if(!fieldTypes.length) {
     console.error(`Types must have at least one field`);
@@ -50,7 +54,7 @@ function newType(moduleName, typeName, fieldTypes) {
     }
   }
 
-  fs.writeFileSync(
+  await fs.writeFileAsync(
     path.join(process.cwd(),`src/modules/${moduleName}/model/types/${typeName.toLowerCase()}.js`),
 `export default \`
 type ${typeName} {
@@ -59,7 +63,7 @@ type ${typeName} {
 \`;
 `.replace("\n\n", "\n"));
 
-  regenerateIndex(path.join(process.cwd(),`src/modules/${moduleName}/model/types`));
+  await regenerateIndex(path.join(process.cwd(),`src/modules/${moduleName}/model/types`));
 }
 
 export default compose (
