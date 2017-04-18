@@ -18,15 +18,14 @@ if(!YARL_BROWSER) {
 
 function useDocumentable(name, args=[]) {
   const sArgs = args.map((e, i) => {
-    const val = e.split(":");
-    return `${val[0]}: '{${val[1]}} ${val[0]}'`;
+    return `${e}: 'Arg ${i}'`;
   }).join(',\n    ');
-  return `@Documentable({
-  text: \`# ${name}\`,
-  args: {
-    ${sArgs}
-  }
-})`;
+  return `Documentable({
+    text: \`# ${name}\`,
+    args: {
+      ${sArgs}
+    }
+  }),`;
 }
 
 function useConnectable(moduleName, componentName) {
@@ -73,11 +72,13 @@ async function newComponent(moduleName, componentName, propTypes, options) {
   catch(e)
   {
     console.error(`No Such Module ${moduleName}`);
+    return;
   }
   try
   {
-    await fs.existsAsync(path.join(process.cwd(), `src/modules/${moduleName}/libs/${functionName}.js`));
-    console.error(`Component ${functionName} Already Exists In ${moduleName}`);
+    await fs.statAsync(path.join(process.cwd(), `src/modules/${moduleName}/libs/${componentName}.js`));
+    console.error(`Component ${componentName} Already Exists In ${moduleName}`);
+    return;
   }
   catch (e) {}
 

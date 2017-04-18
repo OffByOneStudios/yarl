@@ -31,6 +31,7 @@ async function newQuery(moduleName, queryName, returnType, argTypes, options) {
   catch(e)
   {
     console.error(`No Such Module ${moduleName}`);
+    return;
   }
 
   const queryFile = await fs.readFileAsync(path.join(process.cwd(),

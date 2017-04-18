@@ -19,6 +19,7 @@ async function newModule(moduleName) {
   {
     const mod = await fs.statAsync(path.join(process.cwd(), `src/modules/${moduleName}`));
     console.error(`Module already exists ${moduleName}`);
+    return;
   }
   catch(e)
   {

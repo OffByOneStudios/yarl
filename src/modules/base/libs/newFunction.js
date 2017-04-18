@@ -21,11 +21,11 @@ function useDocumentable(name, args=[]) {
     return `${e}: 'Arg ${i}'`;
   }).join(',\n    ');
   return `Documentable({
-  text: \`# ${name}\`,
-  args: {
-    ${sArgs}
-  }
-}),`;
+    text: \`# ${name}\`,
+    args: {
+      ${sArgs}
+    }
+  }),`;
 }
 
 function useCommandable(name, args=[]) {
@@ -70,8 +70,9 @@ async function newFunction(moduleName, functionName, functionArgs, command) {
   }
   try
   {
-    await fs.existsAsync(path.join(process.cwd(), `src/modules/${moduleName}/libs/${functionName}.js`));
+    await fs.statAsync(path.join(process.cwd(), `src/modules/${moduleName}/libs/${functionName}.js`));
     console.error(`Function ${functionName} Already Exists In ${moduleName}`);
+    return;
   }
   catch (e) {}
 

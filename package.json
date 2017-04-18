@@ -1,6 +1,6 @@
 {
   "name": "@offbyonestudios/yarl",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Yet Another React Library",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "package": "npm run compile && npm run fixup && npm publish dist"
   },
   "bin": {
-    "yarl": "dist/cli.js"
+    "yarl": "cli.js"
   },
   "author": "OffByOne Studios",
   "license": "MIT",

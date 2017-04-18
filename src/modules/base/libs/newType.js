@@ -31,6 +31,7 @@ async function newType(moduleName, typeName, fieldTypes) {
   catch(e)
   {
     console.error(`No Such Module ${moduleName}`);
+    return;
   }
   if(!fieldTypes.length) {
     console.error(`Types must have at least one field`);

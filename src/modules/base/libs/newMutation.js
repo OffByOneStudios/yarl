@@ -29,6 +29,7 @@ async function newMutation(moduleName, mutationName, returnType, argTypes) {
   catch(e)
   {
     console.error(`No Such Module ${moduleName}`);
+    return;
   }
 
   const mutationFile = await fs.readFileAsync(path.join(process.cwd(),

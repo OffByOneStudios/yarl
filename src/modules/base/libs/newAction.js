@@ -4,29 +4,34 @@ import Documentable from '../../../configure/libs/documentable'
 import Commandable from '../../../configure/libs/commandable'
 import Tagable from '../../../configure/libs/tagable'
 
+import regenerateIndex from './regenerateIndex';
+
 let fs, path;
 if(!YARL_BROWSER) {
-  fs = require('fs');
+  let bluebird = require("bluebird");
+  fs = bluebird.promisifyAll(require('fs'));
   path = require('path');
 }
 
 function useDocumentable(name, args=[]) {
   const sArgs = args.map((e, i) => {
     return `${e}: 'Arg ${i}'`;
-  }).join(',\n');
+  }).join(',\n    ');
   return `Documentable({
-      text: \`# ${name}\`,
-      args: {${sArgs}}
+    text: \`# ${name}\`,
+    args: {
+      ${sArgs}
+    }
   }),`;
 }
 
 function asyncActionBody(args, post=false) {
-  const sArgs = `${args.join('    \n')}`;
+  const sArgs = `${args.join(',\n        ')}`;
 
   return `
   return (dispatch, getState) => {
     dispatch({
-      type: this.type
+      type: this.type,
       loading: true,
       data: undefined,
       error: undefined,
@@ -62,81 +67,91 @@ function asyncActionBody(args, post=false) {
 }
 
 function actionBody(args) {
-  const sArgs = `${args.join('    \n')}`;
+  const sArgs = `${args.join(',\n      ')}`;
   return `
   return {
     type: this.type,
-    ${sArgs}
+    data:{
+      ${sArgs}
+    }
   }
   `;
 }
 
-function asyncReducer(functionName, args, moduleName) {
+function asyncReducer(actionName, args, moduleName) {
   return `
   Reducable((state, action) => {
     return {
       ...state,
       ${moduleName}: {
         ...state.${moduleName},
-        loading: action.data,
-        query: action.query,
-        data: action.data,
-        error: action.error
+        ${actionName}: {
+          ...state.${moduleName}.${actionName},
+          ...action.data
+        }
       }
     }
+  }),
 `
 }
 
-function reducer(functionName, args, moduleName) {
+function reducer(actionName, args, moduleName) {
   return `
   Reducable((state, action) => {
     return {
       ...state,
       ${moduleName}: {
-        ...state.app.${moduleName},
-        loading: action.data,
-        query: action.query,
-        data: action.data,
-        error: action.error
+        ...state.${moduleName},
+        ${actionName}: {
+          ...state.${moduleName}.${actionName},
+          ...action.data
+        }
       }
     }
+  }),
 `
 }
 
 async function newAction(moduleName, actionName, actionArgs, actionOptions) {
-
-  if(!await fs.exists(path.join(process.cwd(), `src/modules/${moduleName}`)))
+  try
+  {
+    const mod = await fs.statAsync(path.join(process.cwd(), `src/modules/${moduleName}`));
+  }
+  catch(e)
   {
     console.error(`No Such Module ${moduleName}`);
     return;
   }
-  if(await fs.exists(path.join(process.cwd(), `src/modules/${moduleName}/actions/${functionName}.js`)))
+  try
   {
-    console.error(`Action ${actionName} Already Exists In ${moduleName}`);
+    await fs.statAsync(path.join(process.cwd(), `src/modules/${moduleName}/libs/${actionName}.js`));
+    console.error(`Component ${actionName} Already Exists In ${moduleName}`);
     return;
   }
+  catch (e) {}
 
-  const outfile = path.join(process.cwd(), `src/modules/${moduleName}/actions/${functionName}.js`);
-  const yarlPath = (command.yarl) ? '../../..': '@offbyonestudios/yarl';
+  const outfile = path.join(process.cwd(), `src/modules/${moduleName}/actions/${actionName}.js`);
+  const yarlPath = (actionOptions.yarl) ? '../../..': '@offbyonestudios/yarl';
 
-  await fs.writeFile(outfile, `'use babel'
+  await fs.writeFileAsync(outfile, `'use babel'
 import {compose} from 'redux';
 import 'whatwg-fetch';
 import Reducable from '${yarlPath}/configure/libs/reducable';
-${(command.documentable) ? `import Documentable from '${yarlPath}/configure/libs/documentable'`: ''}
-${(command.tagable) ? `import Tagable from '${yarlPath}/configure/libs/tagable'`: ''}
+${(actionOptions.documentable) ? `import Documentable from '${yarlPath}/configure/libs/documentable'`: ''}
+${(actionOptions.tagable) ? `import Tagable from '${yarlPath}/configure/libs/tagable'`: ''}
 
-function ${functionName}(${functionArgs.join(",")}) {
+function ${actionName}(${actionArgs.join(",")}) {
   ${(actionOptions.async) ? asyncActionBody(actionArgs): actionBody(actionArgs)}
 }
 
 export default compose (
-  ${(command.documentable) ? `${useDocumentable(functionName, functionArgs)}` : ''}
-  ${(command.tagable) ? (useTagable(functionName)): ''}
-)(${functionName});
+  ${(actionOptions.async) ? asyncReducer(actionName, actionArgs, moduleName): reducer(actionName, actionArgs, moduleName)}
+  ${(actionOptions.documentable) ? `${useDocumentable(actionName, actionArgs)}` : ''}
+  ${(actionOptions.tagable) ? (useTagable(actionName)): ''}
+)(${actionName});
 `);
 
-  await regenerateIndex(path.join(process.cwd(), `src/modules/${moduleName}/libs/`));
+  await regenerateIndex(path.join(process.cwd(), `src/modules/${moduleName}/actions/`));
 }
 
 export default compose (
