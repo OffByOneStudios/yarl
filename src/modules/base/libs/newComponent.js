@@ -18,7 +18,8 @@ if(!YARL_BROWSER) {
 
 function useDocumentable(name, args=[]) {
   const sArgs = args.map((e, i) => {
-    return `${e}: 'Arg ${i}'`;
+    const sp = e.split(":");
+    return `${sp[0]}: '{${sp[1]}}'`;
   }).join(',\n    ');
   return `@Documentable({
   text: \`# ${name}\`,
