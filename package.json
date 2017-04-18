@@ -1,6 +1,6 @@
 {
   "name": "@offbyonestudios/yarl",
-  "version": "1.0.7",
+  "version": "1.0.12",
   "description": "Yet Another React Library",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,8 @@
     "dev-server": "babel --watch src --out-dir dist",
     "cli": "node scripts/cli.js",
     "compile": "babel src --out-dir dist && babel scripts/dcli.js --out-file dist/cli.js",
-    "prepublish": "npm run compile",
-    "postpublish": "git clean -df"
+    "fixup": "npm run compile && node scripts/safe_publish.js publish && cd dist && yarn install",
+    "package": "npm run compile && npm run fixup && npm publish dist"
   },
   "bin": {
     "yarl": "dist/cli.js"
