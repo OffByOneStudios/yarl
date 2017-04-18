@@ -20,19 +20,19 @@ function useDocumentable(name, args=[]) {
   const sArgs = args.map((e, i) => {
     return `${e}: 'Arg ${i}'`;
   }).join(',\n    ');
-  return `Documentable({
-    text: \`# ${name}\`,
-    args: {
-      ${sArgs}
-    }
-  }),`;
+  return `@Documentable({
+  text: \`# ${name}\`,
+  args: {
+    ${sArgs}
+  }
+})`;
 }
 
 function useConnectable(moduleName, componentName) {
   return `@connect((state) => {
-    return {
-      ${componentName}: state.app.${moduleName}.${componentName}
-    };
+  return {
+    ...state.app.${moduleName}.${componentName}
+  };
 })`
 }
 
