@@ -29,7 +29,7 @@ async function regenerateIndex(directory) {
   const _exports = items.map((e) => { return `${e.split('.')[0]}`});
   await fs.writeFile(
     `${directory}/index.js`,
-    `${_imports.join('\n')}\nexport default {\n  ${_exports.join(',\n  ')}\n};\n`
+    `${_imports.join('\n')}\n\nexport default {\n  ${_exports.join(',\n  ')}\n};\n`
   );
 }
 export default compose(

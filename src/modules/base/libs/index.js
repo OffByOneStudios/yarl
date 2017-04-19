@@ -1,8 +1,9 @@
-import allTodos from './allTodos.js';
+'use babel'
+
 import baseRenderByPropType from './baseRenderByPropType.js';
 import casualByPropTypeString from './casualByPropTypeString.js';
 import cssStylesForPropTypes from './cssStylesForPropTypes.js';
-import emptyUtility from './emptyUtility.js';
+import deleteItem from './deleteItem.js';
 import jsonType from './jsonType.js';
 import newAction from './newAction.js';
 import newComponent from './newComponent.js';
@@ -16,12 +17,12 @@ import newType from './newType.js';
 import proxyRequest from './proxyRequest.js';
 import readDocs from './readDocs.js';
 import regenerateIndex from './regenerateIndex.js';
+
 export default {
-  allTodos,
   baseRenderByPropType,
   casualByPropTypeString,
   cssStylesForPropTypes,
-  emptyUtility,
+  deleteItem,
   jsonType,
   newAction,
   newComponent,
@@ -34,5 +35,5 @@ export default {
   newType,
   proxyRequest,
   readDocs,
-  regenerateIndex
+  regenerateIndex,
 };

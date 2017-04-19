@@ -1,3 +1,3 @@
 export default `
-
-`
+scalar JSON
+`;

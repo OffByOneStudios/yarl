@@ -73,6 +73,18 @@ module.exports = (env)=> {
     context: path.resolve(__dirname, 'src'),
     target: env.target,
 
+    node: {
+      console: false,
+      global: true,
+      process: true,
+      __filename: "mock",
+      __dirname: "mock",
+      Buffer: true,
+      setImmediate: true,
+      fs: "empty",
+      path: true,
+    },
+
     entry: [
       // 'react-hot-loader/patch',
       'webpack-dev-server/client?http://localhost:3020',

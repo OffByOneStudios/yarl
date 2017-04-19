@@ -1,4 +1,7 @@
-import testIt from './testIt.js';
+'use babel'
+
+
+
 export default {
-  testIt,
+
 };

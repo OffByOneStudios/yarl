@@ -1,8 +1,5 @@
-import post from './post.js';
-import sprocket from './sprocket.js';
-import todo from './todo.js';
+import json from './json.js';
+
 export default {
-post,
-sprocket,
-todo,
+  json
 };
