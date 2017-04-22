@@ -6,6 +6,7 @@ import Commandable from '../../../configure/libs/commandable'
 import jsonpath from 'jsonpath';
 import repl from 'repl';
 import * as babel from 'babel-core';
+import syntaxDecorator from 'babel-plugin-syntax-decorators';
 
 let bluebird = require("bluebird");
 let fs = bluebird.promisifyAll(require('fs'));
@@ -38,11 +39,31 @@ async function decoratorsFor(moduleName,contentType,resourceName) {
     const filePath = `${modulePath}/${contentType}s/${resourceName}.js`;
     const data = (await fs.readFileAsync(filePath)).toString();
     try {
-      const result = babel.transform(data, {code:false});
+      const parse = babel.transform(data, {
+        code: false,
+        "presets": [
+          "react",
+          // "latest",
+          // //"stage-0"
+        ],
+        "plugins": [
+           "syntax-decorators",
+        //   // "transform-decorators-legacy",
+           "syntax-class-properties",
+        //   // // "syntax-dynamic-import",
+        ]
+      });
 
-      repl.start('>').context.args = {
-        result: result,
-        jsonpath: jsonpath
+      const tmp = jsonpath.query(parse, "$.ast.program.body[?(@.type === 'ExportDefaultDeclaration')]")[0];
+      if(contentType === 'component') {
+        return jsonpath.query(tmp, "$.declaration.decorators")[0].map((e) => {
+          return e.expression.callee.name;
+        });
+      }
+      else {
+        return jsonpath.query(tmp, "$.declaration.callee.arguments")[0].map((e, i) => {
+          return e.callee.name;
+        });
       }
     }
     catch (e) {
@@ -70,6 +91,10 @@ export default compose (
   program
     .command('decoratorsFor <moduleName> <resourceType> <resourceName>' )
     .description('Invoke updateDocs')
-    .action(decoratorsFor);
+    .action((moduleName,contentType,resourceName) =>
+    {
+      decoratorsFor(moduleName,contentType,resourceName)
+        .then((e) => console.log(e))
+    });
   }),
 )(decoratorsFor);
