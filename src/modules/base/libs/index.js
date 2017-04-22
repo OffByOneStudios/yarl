@@ -1,6 +1,7 @@
 import baseRenderByPropType from './baseRenderByPropType.js';
 import casualByPropTypeString from './casualByPropTypeString.js';
 import cssStylesForPropTypes from './cssStylesForPropTypes.js';
+import decoratorsFor from './decoratorsFor.js';
 import deleteItem from './deleteItem.js';
 import getJsonPath from './getJsonPath.js';
 import jsonType from './jsonType.js';
@@ -23,6 +24,7 @@ export default {
   baseRenderByPropType,
   casualByPropTypeString,
   cssStylesForPropTypes,
+  decoratorsFor,
   deleteItem,
   getJsonPath,
   jsonType,

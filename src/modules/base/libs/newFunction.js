@@ -55,7 +55,7 @@ function getBody(functionName, command) {
     return `return new Promise((resolve, reject) => {resolve({})});`;
   }
   else {
-    return `console.log(${functionName})`;
+    return `console.log("${functionName}")`;
   }
 }
 
