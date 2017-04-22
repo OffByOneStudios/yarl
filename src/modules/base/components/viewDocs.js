@@ -33,9 +33,6 @@ export default class viewDocs extends Component {
 
   render() {
     const body = baseRenderByPropType('base', 'viewDocs', this.props, viewDocs.propTypes);
-    return (
-      <div>
-      </div>
-    )
+    return body;
   }
 }

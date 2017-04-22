@@ -18,6 +18,7 @@ import proxyRequest from './proxyRequest.js';
 import readDocs from './readDocs.js';
 import regenerateIndex from './regenerateIndex.js';
 import setJsonPath from './setJsonPath.js';
+import todosFor from './todosFor.js';
 import updateDocs from './updateDocs.js';
 
 export default {
@@ -41,5 +42,6 @@ export default {
   readDocs,
   regenerateIndex,
   setJsonPath,
+  todosFor,
   updateDocs
 };
