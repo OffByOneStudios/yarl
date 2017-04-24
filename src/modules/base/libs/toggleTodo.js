@@ -4,6 +4,7 @@ import Documentable from '../../../configure/libs/documentable'
 import Commandable from '../../../configure/libs/commandable'
 
 import jsonpath from 'jsonpath';
+import repl from 'repl';
 import * as babel from 'babel-core';
 import syntaxDecorator from 'babel-plugin-syntax-decorators';
 
@@ -19,7 +20,11 @@ const contentTypes = [
 
 const todoRE = /TODO ?\((true|false)\) ?([\w ]+)/;
 
-async function todosFor(moduleName, contentType, resourceName) {
+
+function rebuildTodo(state, value) {
+  return `//TODO(${state}) ${value}`
+}
+async function toggleTodo(moduleName, contentType, resourceName, index) {
   //TODO(false) Clean This Up
   const modulePath = path.join(process.cwd(), `src/modules/${moduleName}`);
   try
@@ -45,36 +50,34 @@ async function todosFor(moduleName, contentType, resourceName) {
         code: false,
         "presets": [
           "react",
-          // "latest",
-          // //"stage-0"
         ],
         "plugins": [
            "syntax-decorators",
-        //   // "transform-decorators-legacy",
            "syntax-class-properties",
-        //   // // "syntax-dynamic-import",
         ]
       });
 
-      return jsonpath.query(parse, "$.ast.comments")[0].filter((e) => {
+      const todos = jsonpath.query(parse, "$.ast.comments")[0].filter((e) => {
         return e.value.includes("TODO");
-      }).map((e) => {
-        const m = todoRE.exec(e.value);
-        return {
-          done: m[1],
-          text: m[2]
-        };
       });
+      if (todos.length < index) {
+        throw "Invalid Todo Index"
+      }
+      else {
+        const m = todoRE.exec(todos[index].value);
+        const b = (m[1] === "true") ? false : true;
+        const res = `${data.slice(0, todos[index].start)}${rebuildTodo(b, m[2])}${data.slice(todos[index].end)}`
+        await fs.writeFileAsync(filePath, res);
+        return b;
+      }
     }
     catch (e) {
-      console.error(e);
-      return;
+      return {error: e};
     }
   }
   catch (e){
     console.log(e);
-    console.error(`No Such ${contentType} ${resourceName} in Module ${moduleName}`);
-    return
+    return {error: `No Such ${contentType} ${resourceName} in Module ${moduleName}`};
   }
 }
 
@@ -84,17 +87,18 @@ export default compose (
     args: {
       moduleName: 'Arg 0',
       contentType: 'Arg 1',
-      resourceName: 'Arg 2'
+      resourceName: 'Arg 2',
+      index: ''
     }
   }),
   Commandable((program) => {
   program
-    .command('todosFor <moduleName> <resourceType> <resourceName>' )
+    .command('toggleTodo <moduleName> <resourceType> <resourceName> <index>' )
     .description('Invoke updateDocs')
-    .action((moduleName,contentType,resourceName) =>
+    .action((moduleName,contentType,resourceName, index) =>
     {
-      todosFor(moduleName,contentType,resourceName)
+      toggleTodo(moduleName,contentType,resourceName, index)
         .then((e) => console.log(e))
     });
   }),
-)(todosFor);
+)(toggleTodo);

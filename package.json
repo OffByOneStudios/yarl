@@ -32,6 +32,7 @@
     "graphql-server-express": "^0.6.0",
     "graphql-tools": "^0.11.0",
     "isomorphic-fetch": "^2.2.1",
+    "jqgram": "^0.2.5",
     "jsonpath": "^0.2.11",
     "node-libs-browser": "^2.0.0",
     "nodegit": "^0.18.0",

@@ -1,8 +1,10 @@
+import addTodo from './addTodo.js';
 import baseRenderByPropType from './baseRenderByPropType.js';
 import casualByPropTypeString from './casualByPropTypeString.js';
 import cssStylesForPropTypes from './cssStylesForPropTypes.js';
 import decoratorsFor from './decoratorsFor.js';
 import deleteItem from './deleteItem.js';
+import functionDistance from './functionDistance.js';
 import getJsonPath from './getJsonPath.js';
 import jsonType from './jsonType.js';
 import newAction from './newAction.js';
@@ -19,14 +21,17 @@ import readDocs from './readDocs.js';
 import regenerateIndex from './regenerateIndex.js';
 import setJsonPath from './setJsonPath.js';
 import todosFor from './todosFor.js';
+import toggleTodo from './toggleTodo.js';
 import updateDocs from './updateDocs.js';
 
 export default {
+  addTodo,
   baseRenderByPropType,
   casualByPropTypeString,
   cssStylesForPropTypes,
   decoratorsFor,
   deleteItem,
+  functionDistance,
   getJsonPath,
   jsonType,
   newAction,
@@ -43,5 +48,6 @@ export default {
   regenerateIndex,
   setJsonPath,
   todosFor,
+  toggleTodo,
   updateDocs
 };

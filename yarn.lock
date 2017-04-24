@@ -2595,6 +2595,13 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
+jqgram@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/jqgram/-/jqgram-0.2.5.tgz#3a1073cab349d6aeddca089899210d400129dc89"
+  dependencies:
+    node-clone "~0.1.1"
+    setimmediate "~1.0.1"
+
 js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
@@ -2889,6 +2896,10 @@ natural-compare@^1.4.0:
 negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
+
+node-clone@~0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/node-clone/-/node-clone-0.1.1.tgz#3c57e4c1eadd3014d38ec4c3a807ed777653a17c"
 
 node-fetch@^1.0.1:
   version "1.6.3"
@@ -3685,7 +3696,7 @@ set-immediate-shim@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/set-immediate-shim/-/set-immediate-shim-1.0.1.tgz#4b2b1b27eb808a9f8dcc481a58e5e56f599f3f61"
 
-setimmediate@^1.0.4, setimmediate@^1.0.5:
+setimmediate@^1.0.4, setimmediate@^1.0.5, setimmediate@~1.0.1:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/setimmediate/-/setimmediate-1.0.5.tgz#290cbb232e306942d7d7ea9b83732ab7856f8285"
 

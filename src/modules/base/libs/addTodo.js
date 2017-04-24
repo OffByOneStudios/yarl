@@ -17,9 +17,15 @@ const contentTypes = [
   "lib",
 ];
 
-const todoRE = /TODO ?\((true|false)\) ?([\w ]+)/;
+function rebuildTodo(value) {
+  return ` //TODO(false) ${value}\n`
+}
 
-async function todosFor(moduleName, contentType, resourceName) {
+
+function score(astNode) {
+  return node.type;
+}
+async function addTodo(moduleName, contentType, resourceName, todoText) {
   //TODO(false) Clean This Up
   const modulePath = path.join(process.cwd(), `src/modules/${moduleName}`);
   try
@@ -45,56 +51,47 @@ async function todosFor(moduleName, contentType, resourceName) {
         code: false,
         "presets": [
           "react",
-          // "latest",
-          // //"stage-0"
         ],
         "plugins": [
            "syntax-decorators",
-        //   // "transform-decorators-legacy",
            "syntax-class-properties",
-        //   // // "syntax-dynamic-import",
         ]
       });
+      const q = "$.ast.program.body[?(@.type === 'FunctionDeclaration')]";
+      const body = jsonpath.query(parse, q)
+        .filter(e => {return  e.id.name === resourceName})[0].body;
 
-      return jsonpath.query(parse, "$.ast.comments")[0].filter((e) => {
-        return e.value.includes("TODO");
-      }).map((e) => {
-        const m = todoRE.exec(e.value);
-        return {
-          done: m[1],
-          text: m[2]
-        };
-      });
+      await fs.writeFileAsync(filePath,
+      data.slice(0, body.start + 3) + rebuildTodo(todoText) + data.slice(body.start + 2))
+      return true;
     }
     catch (e) {
-      console.error(e);
-      return;
+      console.log(e);
+      return {error: e};
     }
   }
   catch (e){
     console.log(e);
-    console.error(`No Such ${contentType} ${resourceName} in Module ${moduleName}`);
-    return
+    return {error: `No Such ${contentType} ${resourceName} in Module ${moduleName}`};
   }
 }
 
 export default compose (
   Documentable({
-    text: `# decoratorsFor`,
+    text: `# addTodo`,
     args: {
       moduleName: 'Arg 0',
-      contentType: 'Arg 1',
-      resourceName: 'Arg 2'
+      resourceType: 'Arg 1',
+      resourceName: 'Arg 2',
+      todoText: 'Arg 3'
     }
   }),
   Commandable((program) => {
   program
-    .command('todosFor <moduleName> <resourceType> <resourceName>' )
-    .description('Invoke updateDocs')
-    .action((moduleName,contentType,resourceName) =>
-    {
-      todosFor(moduleName,contentType,resourceName)
-        .then((e) => console.log(e))
-    });
-  }),
-)(todosFor);
+    .command('addTodo <moduleName> <resourceType> <resourceName> <todoText>' )
+    .description('Add a TODO to a resource')
+    .action(addTodo);
+}),
+
+
+)(addTodo);
