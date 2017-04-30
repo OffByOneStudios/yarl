@@ -22,9 +22,6 @@ function rebuildTodo(value) {
 }
 
 
-function score(astNode) {
-  return node.type;
-}
 async function addTodo(moduleName, contentType, resourceName, todoText) {
   //TODO(false) Clean This Up
   const modulePath = path.join(process.cwd(), `src/modules/${moduleName}`);
