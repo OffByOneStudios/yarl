@@ -4,7 +4,10 @@ import Documentable from '../../../configure/libs/documentable'
 import Commandable from '../../../configure/libs/commandable'
 
 import jq from 'jqgram';
-import * as babel from 'babel-core';
+let babel;
+if(!YARL_BROWSER) {
+  babel = require('babel-core');
+}
 import jsonpath from 'jsonpath';
 
 let bluebird = require("bluebird");

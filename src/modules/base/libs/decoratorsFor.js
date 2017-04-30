@@ -4,9 +4,10 @@ import Documentable from '../../../configure/libs/documentable'
 import Commandable from '../../../configure/libs/commandable'
 
 import jsonpath from 'jsonpath';
-import repl from 'repl';
-import * as babel from 'babel-core';
-import syntaxDecorator from 'babel-plugin-syntax-decorators';
+let babel;
+if(!YARL_BROWSER) {
+  babel = require('babel-core');
+}
 
 let bluebird = require("bluebird");
 let fs = bluebird.promisifyAll(require('fs'));
