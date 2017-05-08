@@ -118,6 +118,7 @@ class ${componentName} extends Component {
     );
   }
 }
+export default ${componentName}
 `);
   await regenerateIndex(path.join(process.cwd(), `src/modules/${moduleName}/components/`));
 }
