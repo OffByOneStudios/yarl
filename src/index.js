@@ -10,7 +10,7 @@ import entrypoint from './configure/entrypoint';
 import NavContainer from './configure/components/navContainer';
 
 // Then Load Modules.
-import modules from './modules';
+import yarlModules from './modules';
 
 function wmain() {
   ReactDOM.render((
@@ -26,31 +26,33 @@ function nmain() {
 
 
 function extractDefaultState(modules) {
-  return Object.keys(modules).reduce((st, e)=> {
-    if (modules[e].defaultState) {
-      st[e] = modules[e].defaultState
+  const mods = {...modules, ...yarlModules};
+  return Object.keys(mods).reduce((st, e)=> {
+    if (mods[e].defaultState) {
+      st[e] = mods[e].defaultState
     }
     return st;
   }, {})
 }
 
 function extractGraphQLSchema(modules) {
-  let gather = Object.keys(modules).reduce((st, e)=> {
-    if(modules[e].model !== undefined) {
+  const mods = {...modules, ...yarlModules};
+  let gather = Object.keys(mods).reduce((st, e)=> {
+    if(mods[e].model !== undefined) {
       st.inputs = st.inputs.concat(
-        Object.keys(modules[e].model.inputs).map((f) => {
-          return modules[e].model.inputs[f];
+        Object.keys(mods[e].model.inputs).map((f) => {
+          return mods[e].model.inputs[f];
         })
       );
 
       st.types = st.types.concat(
-        Object.keys(modules[e].model.types).map((f) => {
-          return modules[e].model.types[f];
+        Object.keys(mods[e].model.types).map((f) => {
+          return mods[e].model.types[f];
         })
       );
 
-      st.queries.push(modules[e].model.queries);
-      st.mutations.push(modules[e].model.mutations);
+      st.queries.push(mods[e].model.queries);
+      st.mutations.push(mods[e].model.mutations);
     }
     return st;
   }, {types:[], inputs: [], queries: [], mutations:[] })
@@ -101,8 +103,8 @@ export default {
 if(YARL_ENTRYPOINT) {
   if(YARL_BROWSER) {
     window.gql = require('react-apollo').gql;
-    window.defaultState = extractDefaultState(modules);
-    const Schema = (extractGraphQLSchema(modules));
+    window.defaultState = extractDefaultState({});
+    const Schema = (extractGraphQLSchema({}));
     window.Context = entrypoint(defaultState, {}, [], Schema);
     module.hot.accept('./', ()=> {
       wmain();
@@ -110,8 +112,8 @@ if(YARL_ENTRYPOINT) {
     wmain();
   }
   else {
-    global.defaultState = extractDefaultState(modules);
-    const Schema = extractGraphQLSchema(modules);
+    global.defaultState = extractDefaultState({});
+    const Schema = extractGraphQLSchema({});
     global.Context = entrypoint(defaultState, {}, [], Schema);
 
     nmain();
