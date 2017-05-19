@@ -16,18 +16,18 @@ As this project and its recommended usage require a number of features that are 
 
 
 1) Init
-```
-mkdir your-yarl
-cd your-yarl
-npm init
-mkdir src
-touch src/index.js
+    ```
+    mkdir your-yarl
+    cd your-yarl
+    npm init
+    mkdir src
+    touch src/index.js
 
-```
+    ```
 2) Install
-```sh
-yarn add @offbyonestudios/yarl
-```
+    ```sh
+    yarn add @offbyonestudios/yarl
+    ```
 
 3) Webpack Configuration
 While we leave Webpack to the developer, you can get away with using this project's `.babelrc` `webpack.config.js`, and the dependencies listed in `package.json`
@@ -35,37 +35,37 @@ While we leave Webpack to the developer, you can get away with using this projec
 4) Bare Module
 5) Entrypoint
 src/index.js
-```
-// Load any external stuff you need.
-// import 'grommet/scss/vanilla/index';
-// Import This First Before importing your modules or other Yarl content.
-import Yarl from 'yarl';
+    ```
+    // Load any external stuff you need.
+    // import 'grommet/scss/vanilla/index';
+    // Import This First Before importing your modules or other Yarl content.
+    import Yarl from 'yarl';
 
-// Then Load Modules.
-import modules from './modules';
+    // Then Load Modules.
+    import modules from './modules';
 
-// Gather your default state
-const defaultState = Yarl.extractDefaultState(modules);
+    // Gather your default state
+    const defaultState = Yarl.extractDefaultState(modules);
 
-// Then Invoke Yarl's Entrypoint
-window.Context = Yarl.entrypoint(defaultState);
+    // Then Invoke Yarl's Entrypoint
+    window.Context = Yarl.entrypoint(defaultState);
 
 
-// These shorthand methods help with dispatching actions from the command line
-window.$d = (actionType) => {
-  return window.Context.Store.dispatch(actionType);
-}
-window.$a = (actionName) => {
-  return window.Context.Actions[actionName];
-}
+    // These shorthand methods help with dispatching actions from the command line
+    window.$d = (actionType) => {
+      return window.Context.Store.dispatch(actionType);
+    }
+    window.$a = (actionName) => {
+      return window.Context.Actions[actionName];
+    }
 
-window.stahp = (e) => {
-  e.preventDefault();
-  return false;
-}
-// Finally, Invoke Render
-Yarl.render();
-```
+    window.stahp = (e) => {
+      e.preventDefault();
+      return false;
+    }
+    // Finally, Invoke Render
+    Yarl.render();
+    ```
 
 ## Quotes
 * *That was almost fun* -Mason Bially (CEO OB1)
