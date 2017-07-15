@@ -2,7 +2,7 @@
 import {compose} from 'redux';
 import Documentable from '../../../configure/libs/documentable'
 import casual from 'casual-browserify';
-import {PropTypes} from 'react';
+import PropTypes from 'prop-types';
 
 function casualByPropTypeString(propType) {
   if(casual[propType] !== undefined) {

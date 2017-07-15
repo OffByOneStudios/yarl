@@ -1,7 +1,8 @@
 'use babel'
 import {compose} from 'redux';
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Routable from '../libs/routable';
 import Documentable from '../libs/documentable';

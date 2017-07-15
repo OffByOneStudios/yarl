@@ -4,7 +4,8 @@ import Documentable from '../../../configure/libs/documentable'
 
 import Tagable from '../../../configure/libs/tagable'
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 function valueFor(moduleName, componentName, propName, prop, type) {
   if(type === PropTypes.array) {

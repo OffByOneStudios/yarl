@@ -86,7 +86,8 @@ async function newComponent(moduleName, componentName, propTypes, options) {
   const outfile = path.join(process.cwd(), `src/modules/${moduleName}/components/${componentName}.js`);
   const yarlPath = (options.yarl) ? '../../..': '@offbyonestudios/yarl';
   await fs.writeFileAsync(outfile, `'use babel'
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 ${(options.connectable) ? `import {connect} from 'react-redux';`: ''}
 import casual from 'casual-browserify';
