@@ -1,6 +1,6 @@
 {
   "name": "@offbyonestudios/yarl",
-  "version": "1.0.20",
+  "version": "1.0.23",
   "description": "Yet Another React Library",
   "main": "index.js",
   "scripts": {

@@ -46,7 +46,8 @@ if(YARL_BROWSER) {
 
     const enhancer = compose(
       applyMiddleware(ReduxThunk),
-      applyMiddleware(GraphQL.middleware())
+      applyMiddleware(GraphQL.middleware()),
+      ...middlewares
     );
     return {
       ...libs.context,

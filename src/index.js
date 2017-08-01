@@ -105,7 +105,9 @@ if(YARL_ENTRYPOINT) {
     window.gql = require('react-apollo').gql;
     window.defaultState = extractDefaultState({});
     const Schema = (extractGraphQLSchema({}));
-    window.Context = entrypoint(defaultState, {}, [], Schema);
+    window.Context = entrypoint(defaultState, {}, [
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    ], Schema);
     module.hot.accept('./', ()=> {
       wmain();
     })
@@ -114,7 +116,9 @@ if(YARL_ENTRYPOINT) {
   else {
     global.defaultState = extractDefaultState({});
     const Schema = extractGraphQLSchema({});
-    global.Context = entrypoint(defaultState, {}, [], Schema);
+    global.Context = entrypoint(defaultState, {}, [
+
+    ], Schema);
 
     nmain();
   }
